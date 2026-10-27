@@ -52,6 +52,7 @@ export default function CityResults({ cities, onSelectCity }: CityResultsProps) 
             return (
               <li key={city.id}>
                 <button
+                  aria-label={[city.name, ...qualifiers].join(', ')}
                   className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left transition hover:border-accent-400/60 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-400"
                   onClick={() => void onSelectCity(city)}
                   type="button"
