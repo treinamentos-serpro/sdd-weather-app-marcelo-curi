@@ -21,6 +21,7 @@ export default defineConfig({
       'tests/unit/**/*.{test,spec}.{ts,tsx}',
       'tests/services/**/*.{test,spec}.{ts,tsx}',
       'tests/hooks/**/*.{test,spec}.{ts,tsx}',
+      'tests/components/**/*.{test,spec}.{ts,tsx}',
     ],
     coverage: {
       provider: 'v8',
