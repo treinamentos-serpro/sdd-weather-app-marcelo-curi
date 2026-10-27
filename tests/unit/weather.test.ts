@@ -1,5 +1,31 @@
 import { describe, expect, it } from 'vitest';
-import { describeWeatherCode, getWindDirection } from '../../src/lib/weather';
+import {
+  buildForecastDates,
+  describeWeatherCode,
+  getWindDirection,
+} from '../../src/lib/weather';
+
+describe('buildForecastDates', () => {
+  it('builds today and the next four civil days in the requested timezone', () => {
+    expect(buildForecastDates(new Date('2026-03-08T12:00:00Z'), 'America/Los_Angeles')).toEqual([
+      '2026-03-08',
+      '2026-03-09',
+      '2026-03-10',
+      '2026-03-11',
+      '2026-03-12',
+    ]);
+  });
+
+  it('uses the local date when it differs from UTC', () => {
+    expect(buildForecastDates(new Date('2026-03-08T01:00:00Z'), 'America/Los_Angeles')).toEqual([
+      '2026-03-07',
+      '2026-03-08',
+      '2026-03-09',
+      '2026-03-10',
+      '2026-03-11',
+    ]);
+  });
+});
 
 describe('describeWeatherCode', () => {
   it.each([
