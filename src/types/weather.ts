@@ -1,5 +1,15 @@
 export type TemperatureUnit = 'celsius' | 'fahrenheit';
 
+export type SearchStatus = 'idle' | 'loading' | 'success' | 'empty' | 'error';
+
+export type WeatherStatus = 'idle' | 'loading' | 'success' | 'error';
+
+export type SearchError = 'required' | 'invalid' | 'too-long';
+
+export type RequestError = 'timeout' | 'network' | 'provider';
+
+export type WeatherError = RequestError | 'unavailable';
+
 export interface City {
   id: number;
   name: string;
@@ -39,4 +49,17 @@ export interface WeatherSnapshot {
   fetchedAt: string;
   /** Instante ISO de observação/validade do provedor, quando disponível. */
   sourceValidAt: string | null;
+}
+
+export interface WeatherState {
+  searchStatus: SearchStatus;
+  searchResults: City[];
+  searchRequestError: RequestError | null;
+  selectedCity: City | null;
+  weatherStatus: WeatherStatus;
+  snapshot: WeatherSnapshot | null;
+  weatherError: WeatherError | null;
+  currentIsIncomplete: boolean;
+  searchError: SearchError | null;
+  unit: TemperatureUnit;
 }
