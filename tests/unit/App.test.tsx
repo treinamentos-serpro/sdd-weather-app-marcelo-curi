@@ -76,6 +76,10 @@ describe('App', () => {
     expect(getWeather).toHaveBeenCalledWith(city, expect.any(AbortSignal));
     expect(screen.getAllByRole('article')).toHaveLength(5);
     expect(within(currentConditions).getByText('20°C')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Open-Meteo' })).toHaveAttribute(
+      'href',
+      'https://open-meteo.com/',
+    );
   });
 
   it('changes the displayed unit without a new weather request', async () => {

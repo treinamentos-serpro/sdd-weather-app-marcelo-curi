@@ -89,6 +89,19 @@ export default function App() {
           {state.weatherStatus === 'loading' && state.snapshot !== null && (
             <LoadingState message="Atualizando dados meteorológicos..." />
           )}
+          {state.snapshot !== null && (
+            <p className="text-sm text-slate-400">
+              Dados meteorológicos:{' '}
+              <a
+                className="font-medium text-accent-400 underline underline-offset-4 hover:text-accent-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
+                href="https://open-meteo.com/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Open-Meteo
+              </a>
+            </p>
+          )}
         </section>
       </div>
     </main>
