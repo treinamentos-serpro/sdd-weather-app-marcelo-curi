@@ -50,7 +50,7 @@ export default function SearchBar({ status, error, onSearch }: SearchBarProps) {
         )}
       </div>
       <button
-        className="self-end rounded-xl bg-accent-500 px-5 py-3 font-semibold text-white transition hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 disabled:cursor-not-allowed disabled:opacity-60 sm:mb-0"
+        className="self-end rounded-xl bg-accent-500 px-5 py-3 font-semibold text-night-900 transition hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 disabled:cursor-not-allowed disabled:opacity-60 sm:mb-0"
         disabled={isLoading}
         type="submit"
       >

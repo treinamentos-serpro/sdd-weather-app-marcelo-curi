@@ -114,7 +114,7 @@ test('requires refinement for duplicate locations and does not request a forecas
   await page.getByRole('searchbox', { name: 'Buscar cidade' }).fill('Lisboa');
   await page.getByRole('button', { name: 'Buscar' }).click();
   await expect(page.getByRole('status')).toContainText('Refine a busca');
-  await expect(page.getByRole('button', { name: 'Lisboa, Portugal' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Lisboa (Portugal)' })).toHaveCount(0);
   expect(requests).toHaveLength(1);
 });
 
@@ -138,7 +138,7 @@ test('shows five days on mobile, changes units without requests, and preserves o
 
   await page.getByRole('searchbox', { name: 'Buscar cidade' }).fill('Lisboa');
   await page.getByRole('button', { name: 'Buscar' }).click();
-  await page.getByRole('button', { name: 'Lisboa, Portugal' }).click();
+  await page.getByRole('button', { name: 'Lisboa (Portugal)' }).click();
   const current = page.getByRole('region', { name: 'Condições atuais de Lisboa' });
   await expect(current).toContainText('20°C');
   await expect(page.getByRole('article')).toHaveCount(5);
@@ -184,7 +184,7 @@ test('times out without retrying and exposes stale data after a manual retry', a
 
   await page.getByRole('searchbox', { name: 'Buscar cidade' }).fill('Lisboa');
   await page.getByRole('button', { name: 'Buscar' }).click();
-  await page.getByRole('button', { name: 'Lisboa, Portugal' }).click();
+  await page.getByRole('button', { name: 'Lisboa (Portugal)' }).click();
   await expect(page.getByRole('status')).toHaveText('Carregando dados meteorológicos...');
   await page.clock.fastForward(10_000);
   await expect(page.getByRole('alert')).toContainText('demorou mais que o esperado');

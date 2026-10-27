@@ -72,7 +72,7 @@ for (const viewport of viewports) {
 
     await page.getByRole('searchbox', { name: 'Buscar cidade' }).fill('Lisboa');
     await page.getByRole('button', { name: 'Buscar' }).click();
-    await page.getByRole('button', { name: 'Lisboa, Portugal' }).click();
+    await page.getByRole('button', { name: 'Lisboa (Portugal)' }).click();
     await expect(page.getByRole('region', { name: 'Condições atuais de Lisboa' })).toBeVisible();
     await expect(page.getByRole('article')).toHaveCount(5);
 

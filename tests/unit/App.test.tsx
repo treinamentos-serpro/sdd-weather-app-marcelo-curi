@@ -64,10 +64,10 @@ describe('App', () => {
     expect(searchCities).not.toHaveBeenCalled();
 
     await user.click(screen.getByRole('button', { name: 'Buscar' }));
-    await screen.findByRole('button', { name: /Lisboa, Portugal/u });
+    await screen.findByRole('button', { name: 'Lisboa (Portugal)' });
     expect(getWeather).not.toHaveBeenCalled();
 
-    await user.click(screen.getByRole('button', { name: /Lisboa, Portugal/u }));
+    await user.click(screen.getByRole('button', { name: 'Lisboa (Portugal)' }));
     const currentConditions = await screen.findByRole('region', {
       name: 'Condições atuais de Lisboa',
     });
@@ -92,7 +92,7 @@ describe('App', () => {
       target: { value: 'Lisboa' },
     });
     await user.click(screen.getByRole('button', { name: 'Buscar' }));
-    await user.click(await screen.findByRole('button', { name: /Lisboa, Portugal/u }));
+    await user.click(await screen.findByRole('button', { name: 'Lisboa (Portugal)' }));
     const currentConditions = await screen.findByRole('region', {
       name: 'Condições atuais de Lisboa',
     });

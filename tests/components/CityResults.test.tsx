@@ -32,9 +32,11 @@ describe('CityResults', () => {
     render(<CityResults cities={cities} onSelectCity={onSelectCity} />);
 
     const firstOption = screen.getByRole('button', {
-      name: 'Springfield, Illinois, United States',
+      name: 'Springfield (Illinois, United States)',
     });
-    expect(screen.getByText('Massachusetts, United States')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Springfield (Massachusetts, United States)' }),
+    ).toBeInTheDocument();
     expect(onSelectCity).not.toHaveBeenCalled();
 
     firstOption.focus();
@@ -58,7 +60,11 @@ describe('CityResults', () => {
     const onSelectCity = vi.fn();
     render(<CityResults cities={[cities[0]!]} onSelectCity={onSelectCity} />);
 
-    screen.getByRole('button', { name: 'Springfield, Illinois, United States' }).focus();
+    screen
+      .getByRole('button', {
+        name: 'Springfield (Illinois, United States)',
+      })
+      .focus();
     await user.keyboard(' ');
     expect(onSelectCity).toHaveBeenCalledWith(cities[0]);
   });
