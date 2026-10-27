@@ -23,8 +23,16 @@ describe('normalizeAndValidateSearch', () => {
     },
   );
 
-  it('accepts 200 graphemes and rejects 201', () => {
+  it('accepts 199 and 200 graphemes and rejects 201', () => {
+    expect(normalizeAndValidateSearch('a'.repeat(199)).error).toBeNull();
     expect(normalizeAndValidateSearch('a'.repeat(200)).error).toBeNull();
     expect(normalizeAndValidateSearch('a'.repeat(201)).error).toBe('too-long');
+  });
+
+  it('accepts accented letters after normalization', () => {
+    expect(normalizeAndValidateSearch('Águaí')).toEqual({
+      normalized: 'Águaí',
+      error: null,
+    });
   });
 });
