@@ -11,7 +11,16 @@ Atualizado em: 2026-10-27
 
 ## Privacidade e telemetria
 
+### Decisão registrada em 2026-10-27 (T-37)
+
+- Serviço operacional/RUM: nenhum serviço aprovado foi identificado no repositório.
+- Aprovação organizacional: `pendente`; não há referência de aprovação formal disponível.
+- Campos: nenhum campo é coletado enquanto a integração estiver desativada. Uma eventual proposta deverá limitar-se a duração, status/categoria, timeout/erro e agregados permitidos de navegador/SO, sem texto de busca, coordenadas, localização precisa ou identificadores de cidade.
+- Retenção: não aplicável enquanto não houver coleta; qualquer aprovação futura deverá estabelecer retenção de no máximo 30 dias e mecanismo de expurgo.
+- Endpoint/SDK: nenhum endpoint de telemetria ou SDK cliente está configurado.
+- Decisão: manter a telemetria cliente desativada até que serviço, aprovação, campos e retenção sejam registrados.
+
 - [x] Nenhum serviço de telemetria operacional/RUM com aprovação organizacional foi identificado no repositório.
 - [x] Telemetria cliente permanece desativada; não há SDK nem endpoint de telemetria configurado.
+- [x] Teste de montagem confirma zero chamadas de rede automáticas, inclusive para telemetria.
 - [ ] Registrar serviço, aprovação formal, campos coletados e retenção (máximo de 30 dias) antes de qualquer ativação.
-

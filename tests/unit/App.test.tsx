@@ -51,9 +51,18 @@ const snapshot: WeatherSnapshot = {
 
 afterEach(() => {
   vi.clearAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe('App', () => {
+  it('does not send automatic telemetry requests on mount', () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    render(<App />);
+
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it('searches, requires explicit city selection, and renders the weather without login', async () => {
     const user = userEvent.setup();
     vi.mocked(searchCities).mockResolvedValue([city]);
