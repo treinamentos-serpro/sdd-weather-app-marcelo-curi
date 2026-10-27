@@ -128,4 +128,21 @@ describe('useWeather weather requests', () => {
     expect(result.current.state.snapshot).toBe(secondSnapshot);
     expect(result.current.state.selectedCity).toBe(secondCity);
   });
+
+  it.each([
+    'timeout',
+    'network',
+    'provider',
+    'unavailable',
+  ] as const)('preserves the error category %s', async (category) => {
+    vi.mocked(getWeather).mockRejectedValue({ category });
+    const { result } = renderHook(() => useWeather());
+
+    await act(async () => {
+      await result.current.selectCity(city);
+    });
+
+    expect(result.current.state.weatherStatus).toBe('error');
+    expect(result.current.state.weatherError).toBe(category);
+  });
 });
