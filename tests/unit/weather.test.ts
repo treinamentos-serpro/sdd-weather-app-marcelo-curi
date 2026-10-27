@@ -96,6 +96,27 @@ describe('describeWeatherCode', () => {
 
 describe('getWindDirection', () => {
   it.each([
+    [11.25, 'NNE'],
+    [33.75, 'NE'],
+    [56.25, 'ENE'],
+    [78.75, 'L'],
+    [101.25, 'ESE'],
+    [123.75, 'SE'],
+    [146.25, 'SSE'],
+    [168.75, 'S'],
+    [191.25, 'SSO'],
+    [213.75, 'SO'],
+    [236.25, 'OSO'],
+    [258.75, 'O'],
+    [281.25, 'ONO'],
+    [303.75, 'NO'],
+    [326.25, 'NNO'],
+    [348.75, 'N'],
+  ])('rounds sector boundary %s degrees to %s', (degrees, direction) => {
+    expect(getWindDirection(degrees)).toBe(direction);
+  });
+
+  it.each([
     [0, 'N'],
     [22.5, 'NNE'],
     [45, 'NE'],
