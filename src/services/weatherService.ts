@@ -269,7 +269,7 @@ export async function fetchForecastResponse(
   }).toString();
 
   const response = await requestJson(url, signal);
-  if (!isRecord(response) || response.error === true) {
+  if (!isRecord(response) || response.error) {
     throw new WeatherServiceError('provider', 'Weather provider returned an invalid forecast response.');
   }
   validateForecastUnits(response);
@@ -437,7 +437,7 @@ export async function searchCities(query: string, signal?: AbortSignal): Promise
   }).toString();
 
   const payload = await requestJson(url, signal);
-  if (!isRecord(payload) || payload.error === true) {
+  if (!isRecord(payload) || payload.error) {
     throw new WeatherServiceError('provider', 'Weather provider returned an invalid geocoding response.');
   }
   if (payload.results === undefined || payload.results === null) {
