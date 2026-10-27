@@ -1,4 +1,6 @@
 import type { City, WeatherError } from '../types/weather';
+import type { CurrentWeather, ForecastDay, WeatherSnapshot } from '../types/weather';
+import { buildForecastDates } from '../lib/weather';
 
 const REQUEST_TIMEOUT_MS = 10_000;
 const GEOCODING_ENDPOINT = 'https://geocoding-api.open-meteo.com/v1/search';
@@ -287,6 +289,141 @@ export async function fetchForecastResponse(
         : null,
     current: mapForecastCurrent(response.current),
     daily: mapForecastDaily(response.daily),
+  };
+}
+
+function localTimeToIso(
+  localTime: string,
+  timezone: string,
+  utcOffsetSeconds: number | null,
+): string {
+  const explicitOffset = /(?:Z|[+-]\d{2}:\d{2})$/iu.test(localTime);
+  if (explicitOffset) {
+    const timestamp = Date.parse(localTime);
+    if (!Number.isFinite(timestamp)) {
+      throw new WeatherServiceError('provider', 'Weather provider returned an invalid observation time.');
+    }
+    return new Date(timestamp).toISOString();
+  }
+
+  const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/u.exec(localTime);
+  if (!match) {
+    throw new WeatherServiceError('provider', 'Weather provider returned an invalid observation time.');
+  }
+  const [, year, month, day, hour, minute, second = '0'] = match;
+  const localAsUtc = Date.UTC(
+    Number(year),
+    Number(month) - 1,
+    Number(day),
+    Number(hour),
+    Number(minute),
+    Number(second),
+  );
+  let timestamp = localAsUtc - (utcOffsetSeconds ?? 0) * 1000;
+
+  if (utcOffsetSeconds === null) {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const localParts = new Intl.DateTimeFormat('en-US', {
+        timeZone: timezone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hourCycle: 'h23',
+      }).formatToParts(new Date(timestamp));
+      const parts = Object.fromEntries(localParts.map(({ type, value }) => [type, Number(value)]));
+      const representedLocalTime = Date.UTC(
+        parts.year,
+        parts.month - 1,
+        parts.day,
+        parts.hour,
+        parts.minute,
+        parts.second,
+      );
+      timestamp = localAsUtc - (representedLocalTime - timestamp);
+    }
+  }
+
+  if (!Number.isFinite(timestamp)) {
+    throw new WeatherServiceError('provider', 'Weather provider returned an invalid observation time.');
+  }
+  return new Date(timestamp).toISOString();
+}
+
+function dailyValue(series: Array<number | null> | undefined, index: number): number | null {
+  return series?.[index] ?? null;
+}
+
+function validTemperatureRange(
+  minimum: number | null,
+  maximum: number | null,
+): [number | null, number | null] {
+  return minimum !== null && maximum !== null && minimum > maximum
+    ? [null, null]
+    : [minimum, maximum];
+}
+
+export async function getWeather(city: City, signal?: AbortSignal): Promise<WeatherSnapshot> {
+  const response = await fetchForecastResponse(city, signal);
+  const fetchedAt = new Date().toISOString();
+  const dates = buildForecastDates(new Date(fetchedAt), response.timezone);
+  const daily = response.daily;
+
+  const days: ForecastDay[] = dates.map((date) => {
+    const index = daily?.time.indexOf(date) ?? -1;
+    const [minimumC, maximumC] = validTemperatureRange(
+      dailyValue(daily?.temperature_2m_min, index),
+      dailyValue(daily?.temperature_2m_max, index),
+    );
+
+    return {
+      date,
+      meanTemperatureC: dailyValue(daily?.temperature_2m_mean, index),
+      minimumC,
+      maximumC,
+      conditionCode: dailyValue(daily?.weather_code, index),
+      precipitationProbabilityPercent: dailyValue(daily?.precipitation_probability_max, index),
+      windSpeedKmh: dailyValue(daily?.wind_speed_10m_max, index),
+      windDirectionDegrees: dailyValue(daily?.wind_direction_10m_dominant, index),
+    };
+  });
+
+  const todayIndex = daily?.time.indexOf(dates[0]) ?? -1;
+  const [dailyMinimumC, dailyMaximumC] = validTemperatureRange(
+    dailyValue(daily?.temperature_2m_min, todayIndex),
+    dailyValue(daily?.temperature_2m_max, todayIndex),
+  );
+  const current: CurrentWeather = {
+    temperatureC: response.current.temperature_2m,
+    conditionCode: response.current.weather_code,
+    dailyMinimumC,
+    dailyMaximumC,
+    precipitationProbabilityPercent: dailyValue(
+      daily?.precipitation_probability_max,
+      todayIndex,
+    ),
+    windSpeedKmh: response.current.wind_speed_10m,
+    windDirectionDegrees: response.current.wind_direction_10m,
+  };
+
+  if (current.temperatureC === null || current.conditionCode === null) {
+    throw new WeatherServiceError(
+      'unavailable',
+      'Current temperature or weather condition is unavailable.',
+    );
+  }
+
+  return {
+    city,
+    current,
+    days,
+    fetchedAt,
+    sourceValidAt:
+      response.current.time === null
+        ? null
+        : localTimeToIso(response.current.time, response.timezone, response.utc_offset_seconds),
   };
 }
 
