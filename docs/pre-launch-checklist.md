@@ -24,3 +24,10 @@ Atualizado em: 2026-10-27
 - [x] Telemetria cliente permanece desativada; não há SDK nem endpoint de telemetria configurado.
 - [x] Teste de montagem confirma zero chamadas de rede automáticas, inclusive para telemetria.
 - [ ] Registrar serviço, aprovação formal, campos coletados e retenção (máximo de 30 dias) antes de qualquer ativação.
+
+### T-38 — Integração condicional
+
+Status em 2026-10-27: não habilitada; a aprovação registrada em T-37 continua `pendente`.
+Nenhum SDK, inicialização, endpoint, payload ou configuração de coleta foi adicionado. A
+implementação de métricas só poderá ser reaberta após aprovação formal e registro do serviço,
+campos permitidos e retenção com expurgo.
