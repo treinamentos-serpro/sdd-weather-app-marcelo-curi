@@ -42,6 +42,31 @@ describe('useWeather search', () => {
     expect(result.current.state.searchError).toBe(error);
   });
 
+  it('moves from idle to loading and then to success after an explicit search', async () => {
+    let resolveSearch: ((value: City[]) => void) | undefined;
+    vi.mocked(searchCities).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveSearch = resolve;
+        }),
+    );
+    const { result } = renderHook(() => useWeather());
+
+    expect(result.current.state.searchStatus).toBe('idle');
+    let request = Promise.resolve();
+    await act(async () => {
+      request = result.current.search('Lisboa');
+    });
+    expect(result.current.state.searchStatus).toBe('loading');
+
+    await act(async () => {
+      resolveSearch?.([city]);
+      await request;
+    });
+    expect(result.current.state.searchStatus).toBe('success');
+    expect(result.current.state.searchResults).toEqual([city]);
+  });
+
   it('updates results only from the most recent search', async () => {
     let resolveFirst: ((value: City[]) => void) | undefined;
     vi.mocked(searchCities)
