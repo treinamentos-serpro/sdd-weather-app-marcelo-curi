@@ -38,7 +38,7 @@ const snapshot: WeatherSnapshot = {
   days: Array.from({ length: 5 }, (_, index) => ({
     date: `2026-03-${String(index + 8).padStart(2, '0')}`,
     meanTemperatureC: 20,
-    minimumC: 15,
+    minimumC: index === 2 ? null : 15,
     maximumC: 23,
     conditionCode: 0,
     precipitationProbabilityPercent: 0,
@@ -100,6 +100,20 @@ describe('App', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Fahrenheit (°F)' }));
     expect(within(currentConditions).getByText('68°F')).toBeInTheDocument();
+    expect(within(currentConditions).getByText('59°F')).toBeInTheDocument();
+    expect(within(currentConditions).getByText('73°F')).toBeInTheDocument();
+    const cards = screen.getAllByRole('article');
+    expect(cards).toHaveLength(5);
+    for (const card of cards) {
+      expect(within(card).getByText('68°F')).toBeInTheDocument();
+    }
+    expect(within(cards[2]!).queryByText('Mínima')).not.toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Fahrenheit (°F)' })).toBeChecked();
+
+    await user.click(screen.getByRole('radio', { name: 'Celsius (°C)' }));
+    expect(within(currentConditions).getByText('20°C')).toBeInTheDocument();
+    expect(within(cards[0]!).getByText('20°C')).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Celsius (°C)' })).toBeChecked();
     expect(getWeather).toHaveBeenCalledTimes(1);
   });
 });
