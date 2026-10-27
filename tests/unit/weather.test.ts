@@ -2,8 +2,35 @@ import { describe, expect, it } from 'vitest';
 import {
   buildForecastDates,
   describeWeatherCode,
+  formatWeatherTimestamp,
   getWindDirection,
+  isWeatherStale,
 } from '../../src/lib/weather';
+
+describe('formatWeatherTimestamp', () => {
+  it('formats in Brazilian Portuguese and includes the city timezone', () => {
+    const formatted = formatWeatherTimestamp('2026-03-08T12:00:00Z', 'America/Los_Angeles');
+    expect(formatted).toContain('08/03/2026');
+    expect(formatted).toContain('05:00');
+    expect(formatted).toMatch(/GMT-7|PDT/u);
+  });
+});
+
+describe('isWeatherStale', () => {
+  const referenceTime = new Date('2026-03-08T12:00:00Z');
+
+  it('does not mark data exactly 24 hours old as stale', () => {
+    expect(isWeatherStale('2026-03-07T12:00:00Z', referenceTime)).toBe(false);
+  });
+
+  it('marks data older than 24 hours as stale', () => {
+    expect(isWeatherStale('2026-03-07T11:59:59Z', referenceTime)).toBe(true);
+  });
+
+  it('does not infer staleness when the observation time is missing', () => {
+    expect(isWeatherStale(null, referenceTime)).toBe(false);
+  });
+});
 
 describe('buildForecastDates', () => {
   it('builds today and the next four civil days in the requested timezone', () => {

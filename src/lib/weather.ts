@@ -70,6 +70,36 @@ export function buildForecastDates(now: Date, timezone: string): string[] {
   );
 }
 
+export function formatWeatherTimestamp(timestamp: string, timezone: string): string {
+  return new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+    timeZone: timezone,
+    timeZoneName: 'short',
+  }).format(new Date(timestamp));
+}
+
+export function isWeatherStale(
+  sourceValidAt: string | null,
+  referenceTime: Date = new Date(),
+): boolean {
+  if (sourceValidAt === null) {
+    return false;
+  }
+
+  const sourceTime = Date.parse(sourceValidAt);
+  const referenceTimestamp = referenceTime.getTime();
+  if (!Number.isFinite(sourceTime) || !Number.isFinite(referenceTimestamp)) {
+    throw new RangeError('Weather timestamps must be valid dates.');
+  }
+
+  return referenceTimestamp - sourceTime > 24 * 60 * 60 * 1000;
+}
+
 export function describeWeatherCode(code: number | null): string | null {
   return code === null ? null : (weatherDescriptions.get(code) ?? null);
 }
