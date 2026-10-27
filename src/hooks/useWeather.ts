@@ -78,6 +78,7 @@ export interface UseWeatherResult {
   search: (query: string) => Promise<void>;
   selectCity: (city: City) => Promise<void>;
   refreshWeather: () => Promise<void>;
+  toggleUnit: () => void;
 }
 
 export default function useWeather(): UseWeatherResult {
@@ -192,6 +193,13 @@ export default function useWeather(): UseWeatherResult {
     }
   }, [requestWeather, state.selectedCity]);
 
+  const toggleUnit = useCallback(() => {
+    setState((current) => ({
+      ...current,
+      unit: current.unit === 'celsius' ? 'fahrenheit' : 'celsius',
+    }));
+  }, []);
+
   useEffect(
     () => () => {
       searchController.current?.abort();
@@ -200,5 +208,5 @@ export default function useWeather(): UseWeatherResult {
     [],
   );
 
-  return { state, search, selectCity, refreshWeather };
+  return { state, search, selectCity, refreshWeather, toggleUnit };
 }

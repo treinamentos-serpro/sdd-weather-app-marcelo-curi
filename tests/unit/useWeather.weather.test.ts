@@ -81,6 +81,24 @@ describe('useWeather weather requests', () => {
     expect(result.current.state.snapshot?.fetchedAt).toBe(snapshot.fetchedAt);
   });
 
+  it('changes the session unit without mutating the snapshot or requesting data', async () => {
+    vi.mocked(getWeather).mockResolvedValue(snapshot);
+    const { result } = renderHook(() => useWeather());
+
+    await act(async () => {
+      await result.current.selectCity(city);
+    });
+    const savedSnapshot = result.current.state.snapshot;
+
+    act(() => {
+      result.current.toggleUnit();
+    });
+
+    expect(result.current.state.unit).toBe('fahrenheit');
+    expect(result.current.state.snapshot).toBe(savedSnapshot);
+    expect(getWeather).toHaveBeenCalledTimes(1);
+  });
+
   it('ignores a weather response superseded by a later selection', async () => {
     const secondCity: City = { ...city, id: 2, name: 'Porto' };
     const secondSnapshot: WeatherSnapshot = { ...snapshot, city: secondCity };
