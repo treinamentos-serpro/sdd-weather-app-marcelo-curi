@@ -42,7 +42,7 @@ export default function ForecastCard({ day, unit }: ForecastCardProps) {
       <h3 className="font-semibold capitalize text-white">
         <time dateTime={day.date}>{formatForecastDate(day.date)}</time>
       </h3>
-      <dl className="mt-4 space-y-3 text-sm">
+      <dl className="mt-4 break-words space-y-3 text-sm">
         {mean !== null && (
           <div>
             <dt className="text-slate-400">Média</dt>
