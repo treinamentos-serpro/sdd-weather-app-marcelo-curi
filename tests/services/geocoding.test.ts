@@ -87,6 +87,14 @@ describe('searchCities', () => {
     await expect(searchCities('Lisboa')).rejects.toMatchObject({ category: 'network' });
   });
 
+  it('classifies a synchronous transport failure as a network error', async () => {
+    fetchMock.mockImplementation(() => {
+      throw new TypeError('offline');
+    });
+
+    await expect(searchCities('Lisboa')).rejects.toMatchObject({ category: 'network' });
+  });
+
   it('forwards cancellation and rejects an explicitly aborted request', async () => {
     fetchMock.mockImplementation(
       (_input, init) =>

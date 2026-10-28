@@ -18,7 +18,7 @@ export function convertTemperature(
   fromUnit: TemperatureUnit,
   toUnit: TemperatureUnit,
 ): number | null {
-  if (value === null) {
+  if (value === null || !Number.isFinite(value)) {
     return null;
   }
 

@@ -1,18 +1,25 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import CityResults from './components/CityResults';
 import CurrentWeather from './components/CurrentWeather';
 import ForecastList from './components/ForecastList';
 import SearchBar from './components/SearchBar';
-import UnitToggle from './components/UnitToggle';
 import EmptyState from './components/states/EmptyState';
 import ErrorState from './components/states/ErrorState';
 import LoadingState from './components/states/LoadingState';
+import UnitToggle from './components/UnitToggle';
 import useWeather from './hooks/useWeather';
 import type { TemperatureUnit } from './types/weather';
 
 export default function App() {
   const { state, search, selectCity, refreshWeather, toggleUnit } = useWeather();
   const lastSearch = useRef<string | null>(null);
+  const searchResultsRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (state.searchStatus === 'success') {
+      searchResultsRef.current?.focus();
+    }
+  }, [state.searchStatus]);
 
   function handleSearch(query: string) {
     lastSearch.current = query;
@@ -43,6 +50,7 @@ export default function App() {
 
         <section
           aria-label="Busca de cidade"
+          aria-busy={state.searchStatus === 'loading'}
           className="space-y-5 rounded-3xl border border-white/10 bg-white/5 p-5 shadow-glass backdrop-blur-md sm:p-7"
         >
           <SearchBar
@@ -63,11 +71,19 @@ export default function App() {
             />
           )}
           {state.searchStatus === 'success' && (
-            <CityResults cities={state.searchResults} onSelectCity={selectCity} />
+            <CityResults
+              cities={state.searchResults}
+              onSelectCity={selectCity}
+              resultRef={searchResultsRef}
+            />
           )}
         </section>
 
-        <section aria-label="Informações meteorológicas" className="space-y-6">
+        <section
+          aria-busy={state.weatherStatus === 'loading'}
+          aria-label="Informações meteorológicas"
+          className="space-y-6"
+        >
           <UnitToggle onChange={handleUnitChange} unit={state.unit} />
           {state.weatherStatus === 'loading' && state.snapshot === null && <LoadingState />}
           {state.weatherStatus === 'error' && state.weatherError !== null && (

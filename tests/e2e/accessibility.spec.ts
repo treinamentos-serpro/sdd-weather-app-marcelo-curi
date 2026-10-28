@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 
 const city = {
   id: 2267057,
@@ -94,10 +94,15 @@ test('has no critical or serious accessibility violations in key states', async 
   await page.getByRole('searchbox', { name: 'Buscar cidade' }).fill('Lisboa');
   await page.getByRole('button', { name: 'Buscar' }).click();
   await expect(page.getByRole('button', { name: 'Lisboa (Portugal)' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Resultados da busca' })).toBeFocused();
   await expectNoSeriousA11yViolations(page);
 
   await page.getByRole('button', { name: 'Lisboa (Portugal)' }).click();
   await expect(page.getByText('Carregando dados meteorológicos...')).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Informações meteorológicas' })).toHaveAttribute(
+    'aria-busy',
+    'true',
+  );
   await expect.poll(() => forecastRequests).toBe(1);
   await expectNoSeriousA11yViolations(page);
 
@@ -107,5 +112,9 @@ test('has no critical or serious accessibility violations in key states', async 
 
   await page.getByRole('button', { name: 'Tentar novamente' }).click();
   await expect(page.getByRole('region', { name: 'Condições atuais de Lisboa' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Informações meteorológicas' })).toHaveAttribute(
+    'aria-busy',
+    'false',
+  );
   await expectNoSeriousA11yViolations(page);
 });

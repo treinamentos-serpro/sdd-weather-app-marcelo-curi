@@ -1,6 +1,11 @@
-import type { City, WeatherError } from '../types/weather';
-import type { CurrentWeather, ForecastDay, WeatherSnapshot } from '../types/weather';
 import { buildForecastDates } from '../lib/weather';
+import type {
+  City,
+  CurrentWeather,
+  ForecastDay,
+  WeatherError,
+  WeatherSnapshot,
+} from '../types/weather';
 
 const REQUEST_TIMEOUT_MS = 10_000;
 const GEOCODING_ENDPOINT = 'https://geocoding-api.open-meteo.com/v1/search';
@@ -55,7 +60,7 @@ async function requestJson(url: URL, signal?: AbortSignal): Promise<unknown> {
   }
 
   const controller = new AbortController();
-  let timeoutId: ReturnType<typeof setTimeout>;
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
   let rejectAbort: ((reason: unknown) => void) | undefined;
   const abortPromise = new Promise<never>((_, reject) => {
     rejectAbort = reject;
@@ -73,22 +78,22 @@ async function requestJson(url: URL, signal?: AbortSignal): Promise<unknown> {
     }, REQUEST_TIMEOUT_MS);
   });
 
-  const requestPromise = fetch(url, { signal: controller.signal }).then(async (response) => {
-    if (!response.ok) {
-      throw new WeatherServiceError(
-        'provider',
-        `Weather provider returned HTTP ${response.status}.`,
-      );
-    }
-
-    try {
-      return await response.json();
-    } catch {
-      throw new WeatherServiceError('provider', 'Weather provider returned invalid JSON.');
-    }
-  });
-
   try {
+    const requestPromise = (async () => {
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) {
+        throw new WeatherServiceError(
+          'provider',
+          `Weather provider returned HTTP ${response.status}.`,
+        );
+      }
+
+      try {
+        return await response.json();
+      } catch {
+        throw new WeatherServiceError('provider', 'Weather provider returned invalid JSON.');
+      }
+    })();
     return await Promise.race([requestPromise, timeoutPromise, abortPromise]);
   } catch (error) {
     if (error instanceof WeatherServiceError) {
@@ -99,7 +104,9 @@ async function requestJson(url: URL, signal?: AbortSignal): Promise<unknown> {
     }
     throw new WeatherServiceError('network', 'Unable to reach the weather provider.');
   } finally {
-    clearTimeout(timeoutId!);
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+    }
     signal?.removeEventListener('abort', handleAbort);
   }
 }

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { type FormEvent, useState } from 'react';
 import type { SearchError, SearchStatus } from '../types/weather';
 
 interface SearchBarProps {
@@ -32,7 +32,13 @@ export default function SearchBar({ status, error, onSearch }: SearchBarProps) {
   }
 
   return (
-    <form className="flex w-full flex-col gap-3 sm:flex-row" onSubmit={handleSubmit}>
+    <form
+      aria-busy={isLoading}
+      aria-label="Buscar cidade"
+      className="flex w-full flex-col gap-3 sm:flex-row"
+      onSubmit={handleSubmit}
+      role="search"
+    >
       <div className="min-w-0 flex-1">
         <label className="mb-2 block text-sm font-medium text-slate-200" htmlFor="city-search">
           Buscar cidade

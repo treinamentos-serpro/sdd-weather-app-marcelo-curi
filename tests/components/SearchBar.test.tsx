@@ -64,11 +64,24 @@ describe('SearchBar', () => {
     const user = userEvent.setup();
     const { input, onSearch } = renderSearchBar('loading');
 
+    expect(screen.getByRole('search', { name: 'Buscar cidade' })).toHaveAttribute(
+      'aria-busy',
+      'true',
+    );
     expect(screen.getByRole('status')).toHaveTextContent('Buscando cidades');
     expect(input).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Buscar' })).toBeDisabled();
     fireEvent.submit(input.closest('form')!);
     await user.keyboard('{Enter}');
     expect(onSearch).not.toHaveBeenCalled();
+  });
+
+  it('marks the search landmark as idle when no request is pending', () => {
+    renderSearchBar();
+
+    expect(screen.getByRole('search', { name: 'Buscar cidade' })).toHaveAttribute(
+      'aria-busy',
+      'false',
+    );
   });
 });

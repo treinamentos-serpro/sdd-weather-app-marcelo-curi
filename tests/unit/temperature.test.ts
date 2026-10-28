@@ -55,6 +55,15 @@ describe('convertTemperature', () => {
     expect(convertTemperature(null, 'fahrenheit', 'celsius')).toBeNull();
   });
 
+  it.each([
+    Number.NaN,
+    Number.POSITIVE_INFINITY,
+    Number.NEGATIVE_INFINITY,
+  ])('does not format a non-finite value (%s)', (value) => {
+    expect(formatTemperature(value, 'celsius')).toBeNull();
+    expect(formatTemperature(value, 'fahrenheit')).toBeNull();
+  });
+
   it('rounds positive and negative ties away from zero', () => {
     expect(roundTemperature(1.5)).toBe(2);
     expect(roundTemperature(-1.5)).toBe(-2);

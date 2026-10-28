@@ -1,8 +1,10 @@
+import type { Ref } from 'react';
 import type { City } from '../types/weather';
 
 interface CityResultsProps {
   cities: City[];
   onSelectCity: (city: City) => void | Promise<void>;
+  resultRef?: Ref<HTMLElement>;
 }
 
 function getQualifiers(city: City): string[] {
@@ -16,7 +18,7 @@ function getDisplayKey(city: City): string {
   return JSON.stringify([city.name, ...getQualifiers(city)]);
 }
 
-export default function CityResults({ cities, onSelectCity }: CityResultsProps) {
+export default function CityResults({ cities, onSelectCity, resultRef }: CityResultsProps) {
   if (cities.length === 0) {
     return null;
   }
@@ -35,7 +37,7 @@ export default function CityResults({ cities, onSelectCity }: CityResultsProps) 
   );
 
   return (
-    <section aria-label="Resultados da busca" className="space-y-3">
+    <section aria-label="Resultados da busca" className="space-y-3" ref={resultRef} tabIndex={-1}>
       {ambiguousCities.length > 0 && (
         <p
           className="rounded-xl border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm text-amber-100"

@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 
 const city = {
   id: 2267057,
@@ -244,6 +244,64 @@ test('shows the empty state when geocoding returns no results property', async (
   await expect(page.getByRole('alert')).toHaveCount(0);
   await expect(page.getByRole('region', { name: 'Previsão de 5 dias' })).toHaveCount(0);
   expect(requests).toHaveLength(1);
+});
+
+test('rejects empty, whitespace-only, and special-character searches without network requests', async ({
+  page,
+}) => {
+  const requests = await blockExternalRequests(page);
+  await page.goto('/');
+
+  const search = page.getByRole('searchbox', { name: 'Buscar cidade' });
+  const submit = page.getByRole('button', { name: 'Buscar' });
+
+  await submit.click();
+  await expect(search).toHaveAccessibleDescription('Informe o nome da cidade.');
+  await search.fill('   ');
+  await submit.click();
+  await expect(search).toHaveAccessibleDescription('Informe o nome da cidade.');
+  await search.fill("O'Fallon");
+  await submit.click();
+  await expect(search).toHaveAccessibleDescription(
+    'Use somente letras e espaços no nome da cidade.',
+  );
+  expect(requests).toHaveLength(0);
+});
+
+test('keeps five forecast dates and renders missing provider fields without invalid values', async ({
+  page,
+}) => {
+  await page.clock.install({ time: new Date('2026-03-08T12:05:00Z') });
+  await blockExternalRequests(page);
+  await routeSearch(page);
+  await page.route('https://api.open-meteo.com/**', (route) =>
+    route.fulfill({
+      json: {
+        ...createForecast(),
+        current: {
+          time: null,
+          temperature_2m: 20,
+          weather_code: 1,
+          wind_speed_10m: null,
+          wind_direction_10m: null,
+        },
+        daily: { time: ['2026-03-08'] },
+      },
+    }),
+  );
+  await page.goto('/');
+
+  await page.getByRole('searchbox', { name: 'Buscar cidade' }).fill('Lisboa');
+  await page.getByRole('button', { name: 'Buscar' }).click();
+  await page.getByRole('button', { name: 'Lisboa (Portugal)' }).click();
+
+  const current = page.getByRole('region', { name: 'Condições atuais de Lisboa' });
+  const forecast = page.getByRole('region', { name: 'Previsão de 5 dias' });
+  await expect(current).toContainText('Algumas condições não estão disponíveis');
+  await expect(forecast.getByRole('article')).toHaveCount(5);
+  await expect(forecast.getByRole('heading', { name: 'Hoje 08/03' })).toBeVisible();
+  await expect(forecast.getByRole('heading', { name: 'Amanhã 09/03' })).toBeVisible();
+  await expect(page.getByText(/NaN|undefined|null/)).toHaveCount(0);
 });
 
 for (const failure of ['http', 'network', 'partial'] as const) {
