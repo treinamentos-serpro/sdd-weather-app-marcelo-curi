@@ -56,6 +56,7 @@ const viewports = [
 for (const viewport of viewports) {
   test(`keeps the weather flow usable at ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport);
+    await page.clock.install({ time: new Date('2026-03-08T12:05:00Z') });
     await page.route('**/*', async (route) => {
       const requestUrl = new URL(route.request().url());
       if (requestUrl.hostname.endsWith('open-meteo.com')) {

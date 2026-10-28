@@ -1,4 +1,4 @@
-import { convertTemperature } from '../lib/temperature';
+import { formatTemperature } from '../lib/temperature';
 import {
   describeWeatherCode,
   formatWeatherTimestamp,
@@ -13,15 +13,6 @@ interface CurrentWeatherProps {
   status: WeatherStatus;
   isIncomplete: boolean;
   onRefresh: () => void | Promise<void>;
-}
-
-function formatTemperature(valueC: number | null, unit: TemperatureUnit): string | null {
-  if (valueC === null) {
-    return null;
-  }
-  const suffix = unit === 'celsius' ? '°C' : '°F';
-  const converted = convertTemperature(valueC, 'celsius', unit);
-  return converted === null ? null : `${converted}${suffix}`;
 }
 
 export default function CurrentWeather({

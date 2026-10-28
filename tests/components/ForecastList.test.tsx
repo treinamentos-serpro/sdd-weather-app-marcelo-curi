@@ -20,6 +20,10 @@ describe('ForecastList', () => {
 
     const cards = screen.getAllByRole('article');
     expect(cards).toHaveLength(5);
+    expect(screen.getByRole('region', { name: 'Previsão de 5 dias' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Hoje 08/03' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Amanhã 09/03' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'terça-feira 10/03' })).toBeInTheDocument();
     expect(cards.map((card) => card.getAttribute('aria-label'))).toEqual(
       days.map((day) => `Previsão para ${day.date}`),
     );

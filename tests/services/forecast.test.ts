@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getWeather } from '../../src/services/weatherService';
+import { getWeather, WeatherServiceError } from '../../src/services/weatherService';
 import type { City } from '../../src/types/weather';
 
 const city: City = {
@@ -55,6 +55,8 @@ const validForecast = {
 let fetchMock: ReturnType<typeof vi.fn<typeof fetch>>;
 
 beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(new Date('2026-03-08T12:05:00Z'));
   fetchMock = vi.fn<typeof fetch>();
   vi.stubGlobal('fetch', fetchMock);
 });
@@ -65,6 +67,60 @@ afterEach(() => {
 });
 
 describe('getWeather', () => {
+  it.each([
+    { current: undefined },
+    { current: null },
+    { daily: undefined },
+    { daily: null },
+    { current: undefined, daily: undefined },
+  ])('rejects missing forecast objects %j with WeatherServiceError', async (partial) => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ ...validForecast, ...partial })));
+    const request = getWeather(city);
+    await expect(request).rejects.toBeInstanceOf(WeatherServiceError);
+    await expect(request).rejects.toMatchObject({ category: 'provider' });
+  });
+
+  it('maps explicit null precipitation to zero while keeping absent values missing', async () => {
+    fetchMock.mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          ...validForecast,
+          daily: { ...validForecast.daily, precipitation_probability_max: [null, 0, 70] },
+        }),
+      ),
+    );
+    const snapshot = await getWeather(city);
+    expect(snapshot.current.precipitationProbabilityPercent).toBe(0);
+    expect(snapshot.days.map((day) => day.precipitationProbabilityPercent)).toEqual([
+      0,
+      0,
+      70,
+      null,
+      null,
+    ]);
+  });
+
+  it.each([
+    { current: [] },
+    { daily: 'invalid' },
+    { current: { ...validForecast.current, temperature_2m: '20' } },
+    { daily: { ...validForecast.daily, temperature_2m_mean: ['20'] } },
+    { daily: { ...validForecast.daily, time: [123] } },
+  ])('rejects malformed partial data %j rather than presenting success', async (partial) => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ ...validForecast, ...partial })));
+    await expect(getWeather(city)).rejects.toMatchObject({
+      name: 'WeatherServiceError',
+      category: 'provider',
+    });
+  });
+
+  it('does not fetch when the request was cancelled before it started', async () => {
+    const controller = new AbortController();
+    controller.abort();
+    await expect(getWeather(city, controller.signal)).rejects.toMatchObject({ name: 'AbortError' });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it('requests the correct forecast parameters and maps an exact deterministic snapshot', async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-03-08T12:05:00Z'));
@@ -118,7 +174,7 @@ describe('getWeather', () => {
           minimumC: 15.1,
           maximumC: 23,
           conditionCode: 1,
-          precipitationProbabilityPercent: null,
+          precipitationProbabilityPercent: 0,
           windSpeedKmh: 17.1,
           windDirectionDegrees: 45,
         },
@@ -218,7 +274,7 @@ describe('getWeather', () => {
             wind_speed_10m: null,
             wind_direction_10m: null,
           },
-          daily: null,
+          daily: {},
         }),
       ),
     );

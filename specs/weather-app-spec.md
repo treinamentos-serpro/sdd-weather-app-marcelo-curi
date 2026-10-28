@@ -1,5 +1,17 @@
 # Especificação de Produto — Weather App
 
+## Revisão P8 — contratos aprovados de testes
+
+Esta revisão prevalece sobre os critérios anteriores conflitantes:
+
+- Busca vazia ou somente com espaços não dispara `onSearch` nem `fetch`; o campo continua informando que o nome é obrigatório.
+- Zero resultados, inclusive resposta `{}`, apresenta “Nenhuma cidade encontrada”.
+- A região de previsão se chama “Previsão de 5 dias”; os dois primeiros cartões usam “Hoje” e “Amanhã”, os demais o dia da semana, todos com data curta em pt-BR.
+- Precipitação explicitamente `null` é normalizada para `0`; campos ausentes continuam `null`.
+- Respostas sem o objeto `current` ou `daily` (inclusive `null`) lançam `WeatherServiceError`. Séries diárias curtas ou campos opcionais ausentes continuam preservando os cinco dias e os valores disponíveis.
+- Conversão cobre `0°C → 32°F`, `100°C → 212°F`, `-40°C → -40°F`, ambas as direções e arredondamento com símbolo. A seleção explícita da cidade permanece obrigatória.
+- O fluxo E2E usa rede interceptada, relógio fixo e queries acessíveis, incluindo viewport 375×812, falha de API e resposta parcial.
+
 ## Overview
 
 O Weather App é uma aplicação web responsiva que permite pesquisar uma cidade e consultar suas condições meteorológicas atuais e uma previsão diária para cinco dias. A experiência inicial será em português do Brasil (pt-BR), com temperaturas em Celsius por padrão e opção de alternar para Fahrenheit.

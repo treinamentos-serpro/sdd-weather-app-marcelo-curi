@@ -76,6 +76,26 @@ pnpm test:coverage   # cobertura
 pnpm test:e2e        # testes E2E (Playwright)
 ```
 
+### Testes determinísticos (P8)
+
+- Vitest substitui `fetch` com `vi.stubGlobal`; chamadas de rede sem mock falham.
+- Helpers cobrem conversão/arredondamento, símbolos, códigos WMO e datas pt-BR.
+- O service cobre respostas parciais, HTTP inválido, falha de rede, timeout e cancelamento.
+- Playwright intercepta geocoding e forecast antes da navegação e usa relógio com data fixa nos fluxos meteorológicos.
+- O fluxo exige selecionar a cidade antes de mostrar o clima. A suíte cobre vazio, conversão e viewport 375×812.
+- Use roles/nomes acessíveis, assertions aguardadas e `expect.poll` para sincronização; não adicione sleeps. Nos testes de timeout, a primeira requisição é intencionalmente mantida sem resposta até o cancelamento.
+- A auditoria axe precisa de timers ativos: não pause o relógio enquanto ela executa.
+
+Para verificar repetibilidade sem retries:
+
+```bash
+pnpm test:e2e tests/e2e/weather.spec.ts --workers=2 --repeat-each=2 --retries=0
+```
+
+Os contratos alterados nesta etapa estão registrados nas revisões P8 da
+[spec](specs/weather-app-spec.md), do [plano](plans/weather-app-plan.md) e das
+[tarefas](tasks/weather-app-tasks.md).
+
 ---
 
 ## Arquitetura do app

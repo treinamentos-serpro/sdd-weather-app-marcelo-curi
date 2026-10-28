@@ -60,10 +60,7 @@ describe('getWeather', () => {
   it('maps a complete forecast into five locally dated days and an ISO snapshot', async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-03-08T12:05:00Z'));
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue(new Response(JSON.stringify(validForecast))),
-    );
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(validForecast))));
 
     await expect(getWeather(city)).resolves.toEqual({
       city,
@@ -104,14 +101,12 @@ describe('getWeather', () => {
     });
   });
 
-  it('keeps five days with null values when daily data is missing', async () => {
+  it('keeps five days with null values when daily series are missing', async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-03-08T12:05:00Z'));
     vi.stubGlobal(
       'fetch',
-      vi.fn().mockResolvedValue(
-        new Response(JSON.stringify({ ...validForecast, daily: null })),
-      ),
+      vi.fn().mockResolvedValue(new Response(JSON.stringify({ ...validForecast, daily: {} }))),
     );
 
     await expect(getWeather(city)).resolves.toMatchObject({

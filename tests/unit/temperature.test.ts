@@ -1,16 +1,53 @@
 import { describe, expect, it } from 'vitest';
-import { convertTemperature, roundTemperature } from '../../src/lib/temperature';
+import {
+  convertTemperature,
+  formatTemperature,
+  roundTemperature,
+  unitLabel,
+} from '../../src/lib/temperature';
 
 describe('convertTemperature', () => {
   it.each([
     [0, 'celsius', 'fahrenheit', 32],
+    [100, 'celsius', 'fahrenheit', 212],
     [-40, 'celsius', 'fahrenheit', -40],
     [20, 'celsius', 'fahrenheit', 68],
     [-10, 'celsius', 'fahrenheit', 14],
     [32, 'fahrenheit', 'celsius', 0],
     [-40, 'fahrenheit', 'celsius', -40],
+    [212, 'fahrenheit', 'celsius', 100],
+    [1.5, 'celsius', 'celsius', 2],
+    [-1.5, 'fahrenheit', 'fahrenheit', -2],
+    [20, 'celsius', 'celsius', 20],
+    [68, 'fahrenheit', 'fahrenheit', 68],
   ] as const)('converts %s %s to %s', (value, from, to, expected) => {
     expect(convertTemperature(value, from, to)).toBe(expected);
+  });
+
+  describe('formatTemperature', () => {
+    it.each([
+      [0, 'celsius', '0°C'],
+      [0, 'fahrenheit', '32°F'],
+      [1.5, 'celsius', '2°C'],
+      [-1.5, 'celsius', '-2°C'],
+      [1.4, 'celsius', '1°C'],
+      [-1.4, 'celsius', '-1°C'],
+      [20.4, 'fahrenheit', '69°F'],
+      [-40, 'fahrenheit', '-40°F'],
+      [null, 'celsius', null],
+      [null, 'fahrenheit', null],
+    ] as const)('formats %s in %s as %s', (value, unit, expected) => {
+      expect(formatTemperature(value, unit)).toBe(expected);
+    });
+  });
+
+  describe('unitLabel', () => {
+    it.each([
+      ['celsius', '°C'],
+      ['fahrenheit', '°F'],
+    ] as const)('labels %s as %s', (unit, expected) => {
+      expect(unitLabel(unit)).toBe(expected);
+    });
   });
 
   it('preserves missing temperatures', () => {

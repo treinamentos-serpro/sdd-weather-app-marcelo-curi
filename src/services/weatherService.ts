@@ -75,7 +75,10 @@ async function requestJson(url: URL, signal?: AbortSignal): Promise<unknown> {
 
   const requestPromise = fetch(url, { signal: controller.signal }).then(async (response) => {
     if (!response.ok) {
-      throw new WeatherServiceError('provider', `Weather provider returned HTTP ${response.status}.`);
+      throw new WeatherServiceError(
+        'provider',
+        `Weather provider returned HTTP ${response.status}.`,
+      );
     }
 
     try {
@@ -101,10 +104,7 @@ async function requestJson(url: URL, signal?: AbortSignal): Promise<unknown> {
   }
 }
 
-function requiredFiniteNumber(
-  value: unknown,
-  fieldName: string,
-): number {
+function requiredFiniteNumber(value: unknown, fieldName: string): number {
   if (typeof value !== 'number' || !Number.isFinite(value)) {
     throw new WeatherServiceError('provider', `Weather provider omitted a valid ${fieldName}.`);
   }
@@ -168,11 +168,17 @@ function mapForecastCurrent(value: unknown): ForecastCurrent {
     };
   }
   if (!isRecord(value)) {
-    throw new WeatherServiceError('provider', 'Weather provider returned invalid current conditions.');
+    throw new WeatherServiceError(
+      'provider',
+      'Weather provider returned invalid current conditions.',
+    );
   }
 
   if (value.time !== undefined && value.time !== null && typeof value.time !== 'string') {
-    throw new WeatherServiceError('provider', 'Weather provider returned an invalid observation time.');
+    throw new WeatherServiceError(
+      'provider',
+      'Weather provider returned an invalid observation time.',
+    );
   }
   return {
     time: typeof value.time === 'string' ? value.time : null,
@@ -188,7 +194,10 @@ function mapDailySeries(value: unknown, fieldName: string): Array<number | null>
     return undefined;
   }
   if (!Array.isArray(value)) {
-    throw new WeatherServiceError('provider', `Weather provider returned an invalid ${fieldName} series.`);
+    throw new WeatherServiceError(
+      'provider',
+      `Weather provider returned an invalid ${fieldName} series.`,
+    );
   }
   return value.map((item) => nullableNumber(item, fieldName));
 }
@@ -198,11 +207,18 @@ function mapForecastDaily(value: unknown): ForecastDaily | null {
     return null;
   }
   if (!isRecord(value)) {
-    throw new WeatherServiceError('provider', 'Weather provider returned invalid daily forecast data.');
+    throw new WeatherServiceError(
+      'provider',
+      'Weather provider returned invalid daily forecast data.',
+    );
   }
 
   const rawTime = value.time;
-  if (rawTime !== undefined && rawTime !== null && (!Array.isArray(rawTime) || !rawTime.every((day) => typeof day === 'string'))) {
+  if (
+    rawTime !== undefined &&
+    rawTime !== null &&
+    (!Array.isArray(rawTime) || !rawTime.every((day) => typeof day === 'string'))
+  ) {
     throw new WeatherServiceError('provider', 'Weather provider returned invalid daily dates.');
   }
 
@@ -270,14 +286,23 @@ export async function fetchForecastResponse(
 
   const response = await requestJson(url, signal);
   if (!isRecord(response) || response.error) {
-    throw new WeatherServiceError('provider', 'Weather provider returned an invalid forecast response.');
+    throw new WeatherServiceError(
+      'provider',
+      'Weather provider returned an invalid forecast response.',
+    );
+  }
+  if (response.current == null || response.daily == null) {
+    throw new WeatherServiceError('provider', 'Weather provider omitted current or daily data.');
   }
   validateForecastUnits(response);
   const timezone = requiredString(response.timezone, 'forecast timezone');
   try {
     new Intl.DateTimeFormat('en-US', { timeZone: timezone });
   } catch {
-    throw new WeatherServiceError('provider', 'Weather provider returned an invalid forecast timezone.');
+    throw new WeatherServiceError(
+      'provider',
+      'Weather provider returned an invalid forecast timezone.',
+    );
   }
 
   return {
@@ -301,14 +326,20 @@ function localTimeToIso(
   if (explicitOffset) {
     const timestamp = Date.parse(localTime);
     if (!Number.isFinite(timestamp)) {
-      throw new WeatherServiceError('provider', 'Weather provider returned an invalid observation time.');
+      throw new WeatherServiceError(
+        'provider',
+        'Weather provider returned an invalid observation time.',
+      );
     }
     return new Date(timestamp).toISOString();
   }
 
   const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/u.exec(localTime);
   if (!match) {
-    throw new WeatherServiceError('provider', 'Weather provider returned an invalid observation time.');
+    throw new WeatherServiceError(
+      'provider',
+      'Weather provider returned an invalid observation time.',
+    );
   }
   const [, year, month, day, hour, minute, second = '0'] = match;
   const localAsUtc = Date.UTC(
@@ -347,13 +378,21 @@ function localTimeToIso(
   }
 
   if (!Number.isFinite(timestamp)) {
-    throw new WeatherServiceError('provider', 'Weather provider returned an invalid observation time.');
+    throw new WeatherServiceError(
+      'provider',
+      'Weather provider returned an invalid observation time.',
+    );
   }
   return new Date(timestamp).toISOString();
 }
 
 function dailyValue(series: Array<number | null> | undefined, index: number): number | null {
   return series?.[index] ?? null;
+}
+
+function precipitationValue(daily: ForecastDaily | null, index: number): number | null {
+  const series = daily?.precipitation_probability_max;
+  return series?.[index] === null ? 0 : dailyValue(series, index);
 }
 
 function validTemperatureRange(
@@ -384,7 +423,7 @@ export async function getWeather(city: City, signal?: AbortSignal): Promise<Weat
       minimumC,
       maximumC,
       conditionCode: dailyValue(daily?.weather_code, index),
-      precipitationProbabilityPercent: dailyValue(daily?.precipitation_probability_max, index),
+      precipitationProbabilityPercent: precipitationValue(daily, index),
       windSpeedKmh: dailyValue(daily?.wind_speed_10m_max, index),
       windDirectionDegrees: dailyValue(daily?.wind_direction_10m_dominant, index),
     };
@@ -400,10 +439,7 @@ export async function getWeather(city: City, signal?: AbortSignal): Promise<Weat
     conditionCode: response.current.weather_code,
     dailyMinimumC,
     dailyMaximumC,
-    precipitationProbabilityPercent: dailyValue(
-      daily?.precipitation_probability_max,
-      todayIndex,
-    ),
+    precipitationProbabilityPercent: precipitationValue(daily, todayIndex),
     windSpeedKmh: response.current.wind_speed_10m,
     windDirectionDegrees: response.current.wind_direction_10m,
   };
@@ -428,6 +464,9 @@ export async function getWeather(city: City, signal?: AbortSignal): Promise<Weat
 }
 
 export async function searchCities(query: string, signal?: AbortSignal): Promise<City[]> {
+  if (query.trim().length === 0) {
+    return [];
+  }
   const url = new URL(GEOCODING_ENDPOINT);
   url.search = new URLSearchParams({
     name: query,
@@ -438,13 +477,19 @@ export async function searchCities(query: string, signal?: AbortSignal): Promise
 
   const payload = await requestJson(url, signal);
   if (!isRecord(payload) || payload.error) {
-    throw new WeatherServiceError('provider', 'Weather provider returned an invalid geocoding response.');
+    throw new WeatherServiceError(
+      'provider',
+      'Weather provider returned an invalid geocoding response.',
+    );
   }
   if (payload.results === undefined || payload.results === null) {
     return [];
   }
   if (!Array.isArray(payload.results)) {
-    throw new WeatherServiceError('provider', 'Weather provider returned invalid geocoding results.');
+    throw new WeatherServiceError(
+      'provider',
+      'Weather provider returned invalid geocoding results.',
+    );
   }
   return payload.results.map(mapCity);
 }

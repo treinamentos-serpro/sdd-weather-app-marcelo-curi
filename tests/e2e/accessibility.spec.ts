@@ -72,6 +72,7 @@ async function expectNoSeriousA11yViolations(page: Page) {
 }
 
 test('has no critical or serious accessibility violations in key states', async ({ page }) => {
+  test.setTimeout(60_000);
   await page.clock.install({ time: new Date('2026-03-08T12:05:00Z') });
   await blockExternalRequests(page);
   await page.route('https://geocoding-api.open-meteo.com/**', (route) =>
@@ -81,7 +82,7 @@ test('has no critical or serious accessibility violations in key states', async 
   await page.route('https://api.open-meteo.com/**', async (route) => {
     forecastRequests += 1;
     if (forecastRequests === 1) {
-      await new Promise(() => {});
+      // Simula ausência de resposta; o timeout do service cancela a requisição.
       return;
     }
     await route.fulfill({ json: forecast });
@@ -97,6 +98,7 @@ test('has no critical or serious accessibility violations in key states', async 
 
   await page.getByRole('button', { name: 'Lisboa (Portugal)' }).click();
   await expect(page.getByText('Carregando dados meteorológicos...')).toBeVisible();
+  await expect.poll(() => forecastRequests).toBe(1);
   await expectNoSeriousA11yViolations(page);
 
   await page.clock.fastForward(10_000);

@@ -1,5 +1,17 @@
 # Plano Técnico — Weather App
 
+## Revisão P8 — implementação dos contratos de testes
+
+Esta revisão substitui as decisões anteriores conflitantes, conforme a revisão P8 da spec.
+
+- Extrair `formatTemperature(valueC, unit)` e `unitLabel(unit)` para `src/lib/temperature.ts`, reutilizando-os nos componentes.
+- Disponibilizar a tabela WMO e `describeWeatherCode` em `src/lib/weatherCodes.ts`, mantendo reexport em `weather.ts` para compatibilidade; código desconhecido continua retornando `null`.
+- Criar `src/lib/format.ts` com `getDayLabel(date, index)` e `getShortDate(date)`, usando calendário UTC para datas civis sem deslocamento de fuso.
+- Bloquear busca vazia no componente (com erro associado ao campo) e no service (retorno `[]` sem rede).
+- Validar presença de `current` e `daily` antes do mapeamento e normalizar somente precipitação explicitamente nula para zero.
+- Atualizar textos de vazio/previsão e rótulos dos cartões. Manter seleção explícita e conversão somente na apresentação.
+- Estender Vitest/Testing Library e Playwright existentes, com `vi.stubGlobal`, relógio fixo, interceptação antes da navegação e assertions aguardadas, sem sleeps.
+
 Este plano deriva da especificação em [`specs/weather-app-spec.md`](../specs/weather-app-spec.md). A spec é a fonte da verdade para o comportamento; este documento define a arquitetura, as decisões técnicas e os contratos necessários para implementá-lo, sem antecipar o código final.
 
 ## Architecture

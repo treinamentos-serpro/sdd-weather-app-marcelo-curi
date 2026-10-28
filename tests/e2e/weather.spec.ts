@@ -11,7 +11,7 @@ const city = {
 
 const duplicateCities = [city, { ...city, id: 999, latitude: 38.8 }];
 
-function createForecast(sourceValidAt = '2026-03-08T12:00'): Record<string, unknown> {
+function createForecast(sourceValidAt = '2026-03-08T12:00') {
   return {
     timezone: 'Europe/Lisbon',
     utc_offset_seconds: 0,
@@ -96,8 +96,8 @@ test('rejects invalid input without a request and distinguishes an empty search'
 
   await search.fill('NoSuchCity');
   await page.getByRole('button', { name: 'Buscar' }).click();
-  await expect(page.getByRole('status')).toHaveText('Cidade inexistente');
-  expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(page.getByRole('status')).toHaveText('Nenhuma cidade encontrada');
+  await expect(page.getByRole('alert')).toHaveCount(0);
   expect(requests).toHaveLength(1);
 });
 
@@ -146,7 +146,9 @@ test('shows five days on mobile, changes units without requests, and preserves o
 
   await page.getByRole('radio', { name: 'Fahrenheit (°F)' }).check();
   await expect(current).toContainText('68°F');
-  await expect(page.getByRole('article').first()).toContainText('68°F');
+  await expect(page.getByRole('article', { name: 'Previsão para 2026-03-08' })).toContainText(
+    '68°F',
+  );
   expect(forecastRequests).toBe(1);
 
   await page.getByRole('button', { name: 'Atualizar' }).click();
@@ -175,7 +177,7 @@ test('times out without retrying and exposes stale data after a manual retry', a
   await page.route('https://api.open-meteo.com/**', async (route) => {
     forecastRequests += 1;
     if (forecastRequests === 1) {
-      await new Promise(() => {});
+      // Simula ausência de resposta; o timeout do service cancela a requisição.
       return;
     }
     await route.fulfill({ json: createForecast('2026-03-06T12:00') });
@@ -186,6 +188,7 @@ test('times out without retrying and exposes stale data after a manual retry', a
   await page.getByRole('button', { name: 'Buscar' }).click();
   await page.getByRole('button', { name: 'Lisboa (Portugal)' }).click();
   await expect(page.getByRole('status')).toHaveText('Carregando dados meteorológicos...');
+  await expect.poll(() => forecastRequests).toBe(1);
   await page.clock.fastForward(10_000);
   await expect(page.getByRole('alert')).toContainText('demorou mais que o esperado');
   expect(forecastRequests).toBe(1);
@@ -198,3 +201,86 @@ test('times out without retrying and exposes stale data after a manual retry', a
   expect(forecastRequests).toBe(2);
   expect(requests).toHaveLength(3);
 });
+
+for (const viewport of [null, { width: 375, height: 812 }]) {
+  test(`searches and converts zero Celsius ${viewport ? 'at 375x812' : 'on the default viewport'}`, async ({
+    page,
+  }) => {
+    if (viewport) await page.setViewportSize(viewport);
+    await page.clock.install({ time: new Date('2026-03-08T12:05:00Z') });
+    const requests = await blockExternalRequests(page);
+    await routeSearch(page);
+    const forecast = createForecast();
+    forecast.current.temperature_2m = 0;
+    await page.route('https://api.open-meteo.com/**', (route) => route.fulfill({ json: forecast }));
+    await page.goto('/');
+    await page.getByRole('searchbox', { name: 'Buscar cidade' }).fill('Lisboa');
+    await page.getByRole('button', { name: 'Buscar' }).click();
+    await page.getByRole('button', { name: 'Lisboa (Portugal)' }).click();
+    const current = page.getByRole('region', { name: 'Condições atuais de Lisboa' });
+    await expect(current.getByRole('heading', { name: 'Lisboa' })).toBeVisible();
+    await expect(current.getByText('0°C', { exact: true })).toBeVisible();
+    const daily = page.getByRole('region', { name: 'Previsão de 5 dias' });
+    await expect(daily).toBeVisible();
+    await expect(daily.getByRole('article')).toHaveCount(5);
+    await expect(daily.getByRole('heading', { name: 'Hoje 08/03' })).toBeVisible();
+    await page.getByRole('radio', { name: 'Fahrenheit (°F)' }).check();
+    await expect(current.getByText('32°F', { exact: true })).toBeVisible();
+    await page.getByRole('radio', { name: 'Celsius (°C)' }).check();
+    await expect(current.getByText('0°C', { exact: true })).toBeVisible();
+    expect(requests).toHaveLength(2);
+  });
+}
+
+test('shows the empty state when geocoding returns no results property', async ({ page }) => {
+  const requests = await blockExternalRequests(page);
+  await page.route('https://geocoding-api.open-meteo.com/**', (route) =>
+    route.fulfill({ json: {} }),
+  );
+  await page.goto('/');
+  await page.getByRole('searchbox', { name: 'Buscar cidade' }).fill('NoSuchCity');
+  await page.getByRole('button', { name: 'Buscar' }).click();
+  await expect(page.getByRole('status')).toHaveText('Nenhuma cidade encontrada');
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Previsão de 5 dias' })).toHaveCount(0);
+  expect(requests).toHaveLength(1);
+});
+
+for (const failure of ['http', 'network', 'partial'] as const) {
+  test(`shows an explicit weather error for ${failure} failure and allows a manual retry`, async ({
+    page,
+  }) => {
+    await page.clock.install({ time: new Date('2026-03-08T12:05:00Z') });
+    await blockExternalRequests(page);
+    await routeSearch(page);
+    let attempts = 0;
+    await page.route('https://api.open-meteo.com/**', async (route) => {
+      attempts += 1;
+      if (attempts > 1) {
+        await route.fulfill({ json: createForecast() });
+      } else if (failure === 'network') {
+        await route.abort('failed');
+      } else if (failure === 'http') {
+        await route.fulfill({ status: 503, json: {} });
+      } else {
+        const { daily: _daily, ...partial } = createForecast();
+        await route.fulfill({ json: partial });
+      }
+    });
+    await page.goto('/');
+    await page.getByRole('searchbox', { name: 'Buscar cidade' }).fill('Lisboa');
+    await page.getByRole('button', { name: 'Buscar' }).click();
+    await page.getByRole('button', { name: 'Lisboa (Portugal)' }).click();
+    await expect(page.getByRole('alert')).toContainText(
+      failure === 'network' ? 'Não foi possível conectar' : 'resposta inválida',
+    );
+    await expect(page.getByRole('region', { name: 'Condições atuais de Lisboa' })).toHaveCount(0);
+    expect(attempts).toBe(1);
+    await page.getByRole('button', { name: 'Tentar novamente' }).click();
+    await expect(page.getByRole('region', { name: 'Condições atuais de Lisboa' })).toContainText(
+      '20°C',
+    );
+    await expect(page.getByRole('alert')).toHaveCount(0);
+    expect(attempts).toBe(2);
+  });
+}

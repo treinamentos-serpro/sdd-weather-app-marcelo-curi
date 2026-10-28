@@ -1,33 +1,15 @@
-import { convertTemperature } from '../lib/temperature';
+import { formatTemperature } from '../lib/temperature';
+import { getDayLabel, getShortDate } from '../lib/format';
 import { describeWeatherCode, getWindDirection } from '../lib/weather';
 import type { ForecastDay, TemperatureUnit } from '../types/weather';
 
 interface ForecastCardProps {
   day: ForecastDay;
+  index: number;
   unit: TemperatureUnit;
 }
 
-function formatForecastDate(date: string): string {
-  return new Intl.DateTimeFormat('pt-BR', {
-    weekday: 'short',
-    day: '2-digit',
-    month: 'short',
-    timeZone: 'UTC',
-  }).format(new Date(`${date}T12:00:00Z`));
-}
-
-function formatTemperature(valueC: number | null, unit: TemperatureUnit): string | null {
-  if (valueC === null) {
-    return null;
-  }
-  const converted = convertTemperature(valueC, 'celsius', unit);
-  if (converted === null) {
-    return null;
-  }
-  return `${converted}${unit === 'celsius' ? '°C' : '°F'}`;
-}
-
-export default function ForecastCard({ day, unit }: ForecastCardProps) {
+export default function ForecastCard({ day, index, unit }: ForecastCardProps) {
   const mean = formatTemperature(day.meanTemperatureC, unit);
   const minimum = formatTemperature(day.minimumC, unit);
   const maximum = formatTemperature(day.maximumC, unit);
@@ -40,7 +22,7 @@ export default function ForecastCard({ day, unit }: ForecastCardProps) {
       className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md"
     >
       <h3 className="font-semibold capitalize text-white">
-        <time dateTime={day.date}>{formatForecastDate(day.date)}</time>
+        {getDayLabel(day.date, index)} <time dateTime={day.date}>{getShortDate(day.date)}</time>
       </h3>
       <dl className="mt-4 break-words space-y-3 text-sm">
         {mean !== null && (

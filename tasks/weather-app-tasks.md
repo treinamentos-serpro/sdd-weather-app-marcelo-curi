@@ -1,5 +1,16 @@
 # Backlog de tarefas — Weather App
 
+## Revisão P8 — backlog de testes e contratos aprovados
+
+Estas tarefas ajustam os critérios anteriores conflitantes conforme a revisão P8 da spec e do plano:
+
+- **P8.1/P8.2:** extrair helpers compartilhados de temperatura/WMO/data e testar conversões, arredondamento, símbolos, fallback e calendário pt-BR.
+- **P8.3:** bloquear busca vazia sem fetch; testar mapeamento, resultado ausente, HTTP inválido, precipitação explicitamente nula como zero e ausência de `current`/`daily` como `WeatherServiceError`.
+- **P8.4:** bloquear submissão vazia com feedback acessível e testar `UnitToggle` + `CurrentWeather` em `0°C ↔ 32°F`.
+- **P8.5/P8.6:** testar seleção explícita, região “Previsão de 5 dias”, conversão e vazio “Nenhuma cidade encontrada”, também em 375×812.
+- **P8.7/P8.8:** cobrir falhas de rede/provedor e respostas parciais; eliminar assertions não aguardadas e promises sem resolução nos handlers de rota; validar lint, build, Vitest e Playwright.
+- **Dependências:** P8.3/P8.4 dependem dos helpers P8.1/P8.2; P8.5/P8.6 dependem dos novos contratos P8.3/P8.4; P8.7/P8.8 validam todas as etapas.
+
 Fonte principal: `plans/weather-app-plan.md`
 
 Requisitos relacionados: `specs/weather-app-spec.md`

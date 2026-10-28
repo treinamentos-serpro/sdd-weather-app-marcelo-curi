@@ -24,6 +24,11 @@ afterEach(() => {
 });
 
 describe('searchCities', () => {
+  it.each(['', '   ', '\n\t'])('does not fetch an empty input %j', async (query) => {
+    await expect(searchCities(query)).resolves.toEqual([]);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it('uses the HTTPS endpoint and all required query parameters', async () => {
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ results: [city] })));
 

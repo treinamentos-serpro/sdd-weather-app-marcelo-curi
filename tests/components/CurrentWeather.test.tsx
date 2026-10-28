@@ -1,7 +1,10 @@
 import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { useState } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import CurrentWeather from '../../src/components/CurrentWeather';
-import type { WeatherSnapshot } from '../../src/types/weather';
+import UnitToggle from '../../src/components/UnitToggle';
+import type { TemperatureUnit, WeatherSnapshot } from '../../src/types/weather';
 
 const snapshot: WeatherSnapshot = {
   city: {
@@ -32,6 +35,33 @@ afterEach(() => {
 });
 
 describe('CurrentWeather', () => {
+  it('converts zero Celsius to 32 Fahrenheit through the accessible unit control and back', async () => {
+    const user = userEvent.setup();
+    function WeatherWithUnit() {
+      const [unit, setUnit] = useState<TemperatureUnit>('celsius');
+      return (
+        <>
+          <UnitToggle onChange={setUnit} unit={unit} />
+          <CurrentWeather
+            isIncomplete={false}
+            onRefresh={vi.fn()}
+            snapshot={{ ...snapshot, current: { ...snapshot.current, temperatureC: 0 } }}
+            status="success"
+            unit={unit}
+          />
+        </>
+      );
+    }
+    render(<WeatherWithUnit />);
+    const region = screen.getByRole('region', { name: 'Condições atuais de Los Angeles' });
+    expect(within(region).getByText('0°C')).toBeInTheDocument();
+    await user.click(screen.getByRole('radio', { name: 'Fahrenheit (°F)' }));
+    expect(within(region).getByText('32°F')).toBeInTheDocument();
+    expect(within(region).queryByText('0°C')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('radio', { name: 'Celsius (°C)' }));
+    expect(within(region).getByText('0°C')).toBeInTheDocument();
+  });
+
   it('renders every available current metric with local time and timezone', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-03-08T13:00:00Z'));

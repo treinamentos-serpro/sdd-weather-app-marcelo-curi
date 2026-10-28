@@ -14,6 +14,21 @@ function renderSearchBar(
 }
 
 describe('SearchBar', () => {
+  it.each(['', '   '])('does not submit an empty query %j and explains why', async (value) => {
+    const user = userEvent.setup();
+    const { input, onSearch } = renderSearchBar();
+    if (value) await user.type(input, value);
+    await user.click(screen.getByRole('button', { name: 'Buscar' }));
+    expect(onSearch).not.toHaveBeenCalled();
+    expect(input).toHaveAccessibleDescription('Informe o nome da cidade.');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+
+    await user.type(input, 'Lisboa');
+    expect(input).toHaveAttribute('aria-invalid', 'false');
+    await user.click(screen.getByRole('button', { name: 'Buscar' }));
+    expect(onSearch).toHaveBeenCalledWith(`${value}Lisboa`);
+  });
+
   it('submits once with Enter and does not search while typing', async () => {
     const user = userEvent.setup();
     const { input, onSearch } = renderSearchBar();

@@ -15,11 +15,17 @@ const validationMessages: Record<SearchError, string> = {
 
 export default function SearchBar({ status, error, onSearch }: SearchBarProps) {
   const [query, setQuery] = useState('');
+  const [isRequired, setIsRequired] = useState(false);
   const isLoading = status === 'loading';
-  const errorMessage = error === null ? null : validationMessages[error];
+  const validationError = isRequired ? 'required' : error;
+  const errorMessage = validationError === null ? null : validationMessages[validationError];
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (query.trim().length === 0) {
+      setIsRequired(true);
+      return;
+    }
     if (!isLoading) {
       void onSearch(query);
     }
@@ -38,7 +44,10 @@ export default function SearchBar({ status, error, onSearch }: SearchBarProps) {
           id="city-search"
           aria-describedby={errorMessage === null ? undefined : 'city-search-error'}
           aria-invalid={errorMessage !== null}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) => {
+            setQuery(event.target.value);
+            setIsRequired(false);
+          }}
           placeholder="Ex.: São Paulo"
           type="search"
           value={query}

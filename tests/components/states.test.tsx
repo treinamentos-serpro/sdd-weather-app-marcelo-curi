@@ -31,7 +31,7 @@ const previousSnapshot: WeatherSnapshot = {
 describe('search states', () => {
   it('shows the empty result without a network error', () => {
     render(<EmptyState />);
-    expect(screen.getByRole('status')).toHaveTextContent('Cidade inexistente');
+    expect(screen.getByRole('status')).toHaveTextContent('Nenhuma cidade encontrada');
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 
