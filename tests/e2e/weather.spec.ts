@@ -91,7 +91,9 @@ test('rejects invalid input without a request and distinguishes an empty search'
   const search = page.getByRole('searchbox', { name: 'Buscar cidade' });
   await search.fill('Lisboa-1');
   await page.getByRole('button', { name: 'Buscar' }).click();
-  await expect(page.getByText('Use somente letras e espaços no nome da cidade.')).toBeVisible();
+  await expect(
+    page.getByText('Use somente letras, espaços, hífen e vírgula no nome da cidade.'),
+  ).toBeVisible();
   expect(requests).toHaveLength(0);
 
   await search.fill('NoSuchCity');
@@ -99,6 +101,52 @@ test('rejects invalid input without a request and distinguishes an empty search'
   await expect(page.getByRole('status')).toHaveText('Nenhuma cidade encontrada');
   await expect(page.getByRole('alert')).toHaveCount(0);
   expect(requests).toHaveLength(1);
+});
+
+test('sends a normalized qualified query and waits for explicit city selection', async ({
+  page,
+}) => {
+  const requests = await blockExternalRequests(page);
+  const receivedQueries: string[] = [];
+  let forecastRequests = 0;
+  await page.route('https://geocoding-api.open-meteo.com/**', async (route) => {
+    receivedQueries.push(new URL(route.request().url()).searchParams.get('name') ?? '');
+    await route.fulfill({
+      json: {
+        results: [
+          {
+            ...city,
+            name: 'Winston-Salem',
+            admin1: 'North Carolina',
+            country: 'United States',
+          },
+        ],
+      },
+    });
+  });
+  await page.route('https://api.open-meteo.com/**', async (route) => {
+    forecastRequests += 1;
+    await route.fulfill({ json: createForecast() });
+  });
+  await page.goto('/');
+
+  const search = page.getByRole('searchbox', { name: 'Buscar cidade' });
+  await search.fill('  Winston-Salem,  North Carolina,   USA  ');
+  await page.getByRole('button', { name: 'Buscar' }).click();
+
+  const cityResult = page.getByRole('button', {
+    name: 'Winston-Salem (North Carolina, United States)',
+  });
+  await expect(cityResult).toBeVisible();
+  expect(receivedQueries).toEqual(['Winston-Salem, North Carolina, USA']);
+  expect(forecastRequests).toBe(0);
+
+  await cityResult.click();
+  await expect(
+    page.getByRole('region', { name: 'Condições atuais de Winston-Salem' }),
+  ).toContainText('20°C');
+  expect(forecastRequests).toBe(1);
+  expect(requests).toHaveLength(2);
 });
 
 test('requires refinement for duplicate locations and does not request a forecast', async ({
@@ -260,10 +308,15 @@ test('rejects empty, whitespace-only, and special-character searches without net
   await search.fill('   ');
   await submit.click();
   await expect(search).toHaveAccessibleDescription('Informe o nome da cidade.');
+  await search.fill('a'.repeat(201));
+  await submit.click();
+  await expect(search).toHaveAccessibleDescription(
+    'O nome da cidade deve ter até 200 caracteres percebidos.',
+  );
   await search.fill("O'Fallon");
   await submit.click();
   await expect(search).toHaveAccessibleDescription(
-    'Use somente letras e espaços no nome da cidade.',
+    'Use somente letras, espaços, hífen e vírgula no nome da cidade.',
   );
   expect(requests).toHaveLength(0);
 });
