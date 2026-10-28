@@ -9,8 +9,8 @@ interface SearchBarProps {
 
 const validationMessages: Record<SearchError, string> = {
   required: 'Informe o nome da cidade.',
-  invalid: 'Use somente letras e espaços no nome da cidade.',
-  'too-long': 'O nome da cidade deve ter até 200 caracteres.',
+  invalid: 'Use somente letras, espaços, hífen e vírgula no nome da cidade.',
+  'too-long': 'O nome da cidade deve ter até 200 caracteres percebidos.',
 };
 
 export default function SearchBar({ status, error, onSearch }: SearchBarProps) {

@@ -49,10 +49,34 @@ describe('SearchBar', () => {
     expect(onSearch).toHaveBeenCalledWith('Lisboa');
   });
 
+  it('preserves hyphens and commas while typing and submits the full query', async () => {
+    const user = userEvent.setup();
+    const { input, onSearch } = renderSearchBar();
+    const query = 'Winston-Salem, North Carolina, USA';
+
+    await user.type(input, query);
+    expect(input).toHaveValue(query);
+
+    await user.click(screen.getByRole('button', { name: 'Buscar' }));
+    expect(onSearch).toHaveBeenCalledWith(query);
+  });
+
+  it('does not truncate a query over 200 graphemes while typing', async () => {
+    const user = userEvent.setup();
+    const { input, onSearch } = renderSearchBar();
+    const query = 'a'.repeat(201);
+
+    await user.type(input, query);
+    expect(input).toHaveValue(query);
+
+    await user.click(screen.getByRole('button', { name: 'Buscar' }));
+    expect(onSearch).toHaveBeenCalledWith(query);
+  });
+
   it.each([
     ['required', 'Informe o nome da cidade.'],
-    ['invalid', 'Use somente letras e espaços no nome da cidade.'],
-    ['too-long', 'O nome da cidade deve ter até 200 caracteres.'],
+    ['invalid', 'Use somente letras, espaços, hífen e vírgula no nome da cidade.'],
+    ['too-long', 'O nome da cidade deve ter até 200 caracteres percebidos.'],
   ] as const)('associates the %s validation message with the input', (error, message) => {
     const { input } = renderSearchBar('idle', error);
     expect(screen.getByText(message)).toHaveAttribute('id', 'city-search-error');
