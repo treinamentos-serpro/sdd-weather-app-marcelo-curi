@@ -30,7 +30,7 @@ describe('useWeather search', () => {
   it.each([
     ['', 'required'],
     ['  ', 'required'],
-    ['New-York', 'invalid'],
+    ["O'Fallon", 'invalid'],
     ['a'.repeat(201), 'too-long'],
   ] as const)('rejects invalid input without calling the service', async (query, error) => {
     const { result } = renderHook(() => useWeather());

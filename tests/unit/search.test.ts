@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { normalizeAndValidateSearch } from '../../src/lib/search';
 
 describe('normalizeAndValidateSearch', () => {
-  it('normalizes Unicode to NFC and collapses whitespace', () => {
-    expect(normalizeAndValidateSearch('  Sa\u0303o   Paulo  ')).toEqual({
-      normalized: 'São Paulo',
+  it('normalizes Unicode to NFC and collapses whitespace in qualified queries', () => {
+    expect(normalizeAndValidateSearch('  Winston-Salem,  North Carolina,   USA  ')).toEqual({
+      normalized: 'Winston-Salem, North Carolina, USA',
       error: null,
     });
   });
@@ -16,17 +16,25 @@ describe('normalizeAndValidateSearch', () => {
     });
   });
 
-  it.each(['Rio-de-Janeiro', "O'Fallon", 'Porto2', 'Lisboa!'])(
+  it.each(["O'Fallon", 'Porto2', 'Lisboa!', 'New_York'])(
     'rejects unsupported characters in %s',
     (input) => {
       expect(normalizeAndValidateSearch(input).error).toBe('invalid');
     },
   );
 
-  it('accepts 199 and 200 graphemes and rejects 201', () => {
-    expect(normalizeAndValidateSearch('a'.repeat(199)).error).toBeNull();
-    expect(normalizeAndValidateSearch('a'.repeat(200)).error).toBeNull();
-    expect(normalizeAndValidateSearch('a'.repeat(201)).error).toBe('too-long');
+  it('counts normalized Unicode graphemes and accepts 200 but rejects 201', () => {
+    const exactlyTwoHundred = 'e\u0301'.repeat(200);
+    const twoHundredAndOne = 'e\u0301'.repeat(201);
+
+    expect(normalizeAndValidateSearch(exactlyTwoHundred)).toEqual({
+      normalized: 'é'.repeat(200),
+      error: null,
+    });
+    expect(normalizeAndValidateSearch(twoHundredAndOne)).toEqual({
+      normalized: 'é'.repeat(201),
+      error: 'too-long',
+    });
   });
 
   it('accepts accented letters after normalization', () => {
@@ -34,5 +42,9 @@ describe('normalizeAndValidateSearch', () => {
       normalized: 'Águaí',
       error: null,
     });
+  });
+
+  it('accepts hyphens and commas together with geographic qualifiers', () => {
+    expect(normalizeAndValidateSearch('Winston-Salem, North Carolina, USA').error).toBeNull();
   });
 });
