@@ -1,0 +1,998 @@
+Running 36 tests using 1 worker
+
+  ✓   1 [chromium] › tests/e2e/accessibility.spec.ts:74:1 › has no critical or serious accessibility violations in key states (4.2s)
+  ✓   2 [chromium] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 320px (590ms)
+  ✓   3 [chromium] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 768px (514ms)
+  ✓   4 [chromium] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1280px (589ms)
+  ✓   5 [chromium] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1920px (564ms)
+  ✓   6 [chromium] › tests/e2e/weather.spec.ts:84:1 › rejects invalid input without a request and distinguishes an empty search (336ms)
+  ✓   7 [chromium] › tests/e2e/weather.spec.ts:106:1 › sends a normalized qualified query and waits for explicit city selection (378ms)
+  ✓   8 [chromium] › tests/e2e/weather.spec.ts:152:1 › requires refinement for duplicate locations and does not request a forecast (320ms)
+  ✓   9 [chromium] › tests/e2e/weather.spec.ts:169:1 › shows five days on mobile, changes units without requests, and preserves old data on refresh failure (589ms)
+  ✓  10 [chromium] › tests/e2e/weather.spec.ts:220:1 › times out without retrying and exposes stale data after a manual retry (449ms)
+  ✓  11 [chromium] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius on the default viewport (511ms)
+  ✓  12 [chromium] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius at 375x812 (488ms)
+  ✓  13 [chromium] › tests/e2e/weather.spec.ts:283:1 › shows the empty state when geocoding returns no results property (292ms)
+  ✓  14 [chromium] › tests/e2e/weather.spec.ts:297:1 › rejects empty, whitespace-only, and special-character searches without network requests (385ms)
+  ✓  15 [chromium] › tests/e2e/weather.spec.ts:324:1 › keeps five forecast dates and renders missing provider fields without invalid values (416ms)
+  ✓  16 [chromium] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for http failure and allows a manual retry (434ms)
+  ✓  17 [chromium] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for network failure and allows a manual retry (478ms)
+  ✓  18 [chromium] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for partial failure and allows a manual retry (442ms)
+  ✘  19 [mobile] › tests/e2e/accessibility.spec.ts:74:1 › has no critical or serious accessibility violations in key states (2ms)
+  ✘  20 [mobile] › tests/e2e/accessibility.spec.ts:74:1 › has no critical or serious accessibility violations in key states (retry #1) (2ms)
+  ✘  21 [mobile] › tests/e2e/accessibility.spec.ts:74:1 › has no critical or serious accessibility violations in key states (retry #2) (2ms)
+  ✘  22 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 320px (2ms)
+  ✘  23 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 320px (retry #1) (2ms)
+  ✘  24 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 320px (retry #2) (3ms)
+  ✘  25 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 768px (2ms)
+  ✘  26 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 768px (retry #1) (2ms)
+  ✘  27 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 768px (retry #2) (2ms)
+  ✘  28 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1280px (2ms)
+  ✘  29 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1280px (retry #1) (2ms)
+  ✘  30 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1280px (retry #2) (2ms)
+  ✘  31 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1920px (2ms)
+  ✘  32 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1920px (retry #1) (2ms)
+  ✘  33 [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1920px (retry #2) (2ms)
+  ✘  34 [mobile] › tests/e2e/weather.spec.ts:84:1 › rejects invalid input without a request and distinguishes an empty search (2ms)
+  ✘  35 [mobile] › tests/e2e/weather.spec.ts:84:1 › rejects invalid input without a request and distinguishes an empty search (retry #1) (2ms)
+  ✘  36 [mobile] › tests/e2e/weather.spec.ts:84:1 › rejects invalid input without a request and distinguishes an empty search (retry #2) (3ms)
+  ✘  37 [mobile] › tests/e2e/weather.spec.ts:106:1 › sends a normalized qualified query and waits for explicit city selection (2ms)
+  ✘  38 [mobile] › tests/e2e/weather.spec.ts:106:1 › sends a normalized qualified query and waits for explicit city selection (retry #1) (2ms)
+  ✘  39 [mobile] › tests/e2e/weather.spec.ts:106:1 › sends a normalized qualified query and waits for explicit city selection (retry #2) (2ms)
+  ✘  40 [mobile] › tests/e2e/weather.spec.ts:152:1 › requires refinement for duplicate locations and does not request a forecast (2ms)
+  ✘  41 [mobile] › tests/e2e/weather.spec.ts:152:1 › requires refinement for duplicate locations and does not request a forecast (retry #1) (2ms)
+  ✘  42 [mobile] › tests/e2e/weather.spec.ts:152:1 › requires refinement for duplicate locations and does not request a forecast (retry #2) (2ms)
+  ✘  43 [mobile] › tests/e2e/weather.spec.ts:169:1 › shows five days on mobile, changes units without requests, and preserves old data on refresh failure (2ms)
+  ✘  44 [mobile] › tests/e2e/weather.spec.ts:169:1 › shows five days on mobile, changes units without requests, and preserves old data on refresh failure (retry #1) (2ms)
+  ✘  45 [mobile] › tests/e2e/weather.spec.ts:169:1 › shows five days on mobile, changes units without requests, and preserves old data on refresh failure (retry #2) (2ms)
+  ✘  46 [mobile] › tests/e2e/weather.spec.ts:220:1 › times out without retrying and exposes stale data after a manual retry (2ms)
+  ✘  47 [mobile] › tests/e2e/weather.spec.ts:220:1 › times out without retrying and exposes stale data after a manual retry (retry #1) (2ms)
+  ✘  48 [mobile] › tests/e2e/weather.spec.ts:220:1 › times out without retrying and exposes stale data after a manual retry (retry #2) (3ms)
+  ✘  49 [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius on the default viewport (2ms)
+  ✘  50 [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius on the default viewport (retry #1) (2ms)
+  ✘  51 [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius on the default viewport (retry #2) (2ms)
+  ✘  52 [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius at 375x812 (2ms)
+  ✘  53 [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius at 375x812 (retry #1) (2ms)
+  ✘  54 [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius at 375x812 (retry #2) (2ms)
+  ✘  55 [mobile] › tests/e2e/weather.spec.ts:283:1 › shows the empty state when geocoding returns no results property (2ms)
+  ✘  56 [mobile] › tests/e2e/weather.spec.ts:283:1 › shows the empty state when geocoding returns no results property (retry #1) (2ms)
+  ✘  57 [mobile] › tests/e2e/weather.spec.ts:283:1 › shows the empty state when geocoding returns no results property (retry #2) (2ms)
+  ✘  58 [mobile] › tests/e2e/weather.spec.ts:297:1 › rejects empty, whitespace-only, and special-character searches without network requests (2ms)
+  ✘  59 [mobile] › tests/e2e/weather.spec.ts:297:1 › rejects empty, whitespace-only, and special-character searches without network requests (retry #1) (2ms)
+  ✘  60 [mobile] › tests/e2e/weather.spec.ts:297:1 › rejects empty, whitespace-only, and special-character searches without network requests (retry #2) (2ms)
+  ✘  61 [mobile] › tests/e2e/weather.spec.ts:324:1 › keeps five forecast dates and renders missing provider fields without invalid values (2ms)
+  ✘  62 [mobile] › tests/e2e/weather.spec.ts:324:1 › keeps five forecast dates and renders missing provider fields without invalid values (retry #1) (2ms)
+  ✘  63 [mobile] › tests/e2e/weather.spec.ts:324:1 › keeps five forecast dates and renders missing provider fields without invalid values (retry #2) (3ms)
+  ✘  64 [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for http failure and allows a manual retry (3ms)
+  ✘  65 [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for http failure and allows a manual retry (retry #1) (3ms)
+  ✘  66 [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for http failure and allows a manual retry (retry #2) (2ms)
+  ✘  67 [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for network failure and allows a manual retry (2ms)
+  ✘  68 [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for network failure and allows a manual retry (retry #1) (2ms)
+  ✘  69 [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for network failure and allows a manual retry (retry #2) (2ms)
+  ✘  70 [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for partial failure and allows a manual retry (2ms)
+  ✘  71 [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for partial failure and allows a manual retry (retry #1) (2ms)
+  ✘  72 [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for partial failure and allows a manual retry (retry #2) (2ms)
+
+
+  1) [mobile] › tests/e2e/accessibility.spec.ts:74:1 › has no critical or serious accessibility violations in key states 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/accessibility-has-no-criti-73797-ty-violations-in-key-states-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/accessibility-has-no-criti-73797-ty-violations-in-key-states-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/accessibility-has-no-criti-73797-ty-violations-in-key-states-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/accessibility-has-no-criti-73797-ty-violations-in-key-states-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/accessibility-has-no-criti-73797-ty-violations-in-key-states-mobile-retry2/error-context.md
+
+  2) [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 320px ─────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-320px-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-320px-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/responsive-keeps-the-weather-flow-usable-at-320px-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/responsive-keeps-the-weather-flow-usable-at-320px-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-320px-mobile-retry2/error-context.md
+
+  3) [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 768px ─────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-768px-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-768px-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/responsive-keeps-the-weather-flow-usable-at-768px-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/responsive-keeps-the-weather-flow-usable-at-768px-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-768px-mobile-retry2/error-context.md
+
+  4) [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1280px ────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-1280px-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-1280px-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/responsive-keeps-the-weather-flow-usable-at-1280px-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/responsive-keeps-the-weather-flow-usable-at-1280px-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-1280px-mobile-retry2/error-context.md
+
+  5) [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1920px ────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-1920px-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-1920px-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/responsive-keeps-the-weather-flow-usable-at-1920px-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/responsive-keeps-the-weather-flow-usable-at-1920px-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/responsive-keeps-the-weather-flow-usable-at-1920px-mobile-retry2/error-context.md
+
+  6) [mobile] › tests/e2e/weather.spec.ts:84:1 › rejects invalid input without a request and distinguishes an empty search 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-rejects-invalid-in-7cb78-stinguishes-an-empty-search-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-rejects-invalid-in-7cb78-stinguishes-an-empty-search-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-rejects-invalid-in-7cb78-stinguishes-an-empty-search-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-rejects-invalid-in-7cb78-stinguishes-an-empty-search-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-rejects-invalid-in-7cb78-stinguishes-an-empty-search-mobile-retry2/error-context.md
+
+  7) [mobile] › tests/e2e/weather.spec.ts:106:1 › sends a normalized qualified query and waits for explicit city selection 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-sends-a-normalized-af360-for-explicit-city-selection-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-sends-a-normalized-af360-for-explicit-city-selection-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-sends-a-normalized-af360-for-explicit-city-selection-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-sends-a-normalized-af360-for-explicit-city-selection-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-sends-a-normalized-af360-for-explicit-city-selection-mobile-retry2/error-context.md
+
+  8) [mobile] › tests/e2e/weather.spec.ts:152:1 › requires refinement for duplicate locations and does not request a forecast 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-requires-refinemen-44827-does-not-request-a-forecast-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-requires-refinemen-44827-does-not-request-a-forecast-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-requires-refinemen-44827-does-not-request-a-forecast-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-requires-refinemen-44827-does-not-request-a-forecast-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-requires-refinemen-44827-does-not-request-a-forecast-mobile-retry2/error-context.md
+
+  9) [mobile] › tests/e2e/weather.spec.ts:169:1 › shows five days on mobile, changes units without requests, and preserves old data on refresh failure 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-five-days-on-5ee43-old-data-on-refresh-failure-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-five-days-on-5ee43-old-data-on-refresh-failure-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-shows-five-days-on-5ee43-old-data-on-refresh-failure-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-shows-five-days-on-5ee43-old-data-on-refresh-failure-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-five-days-on-5ee43-old-data-on-refresh-failure-mobile-retry2/error-context.md
+
+  10) [mobile] › tests/e2e/weather.spec.ts:220:1 › times out without retrying and exposes stale data after a manual retry 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-times-out-without--f4749-e-data-after-a-manual-retry-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-times-out-without--f4749-e-data-after-a-manual-retry-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-times-out-without--f4749-e-data-after-a-manual-retry-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-times-out-without--f4749-e-data-after-a-manual-retry-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-times-out-without--f4749-e-data-after-a-manual-retry-mobile-retry2/error-context.md
+
+  11) [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius on the default viewport 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-searches-and-conve-597de-ius-on-the-default-viewport-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-searches-and-conve-597de-ius-on-the-default-viewport-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-searches-and-conve-597de-ius-on-the-default-viewport-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-searches-and-conve-597de-ius-on-the-default-viewport-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-searches-and-conve-597de-ius-on-the-default-viewport-mobile-retry2/error-context.md
+
+  12) [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius at 375x812 ───
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-searches-and-converts-zero-Celsius-at-375x812-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-searches-and-converts-zero-Celsius-at-375x812-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-searches-and-converts-zero-Celsius-at-375x812-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-searches-and-converts-zero-Celsius-at-375x812-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-searches-and-converts-zero-Celsius-at-375x812-mobile-retry2/error-context.md
+
+  13) [mobile] › tests/e2e/weather.spec.ts:283:1 › shows the empty state when geocoding returns no results property 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-the-empty-st-42030-returns-no-results-property-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-the-empty-st-42030-returns-no-results-property-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-shows-the-empty-st-42030-returns-no-results-property-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-shows-the-empty-st-42030-returns-no-results-property-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-the-empty-st-42030-returns-no-results-property-mobile-retry2/error-context.md
+
+  14) [mobile] › tests/e2e/weather.spec.ts:297:1 › rejects empty, whitespace-only, and special-character searches without network requests 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-rejects-empty-whit-6adfe-es-without-network-requests-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-rejects-empty-whit-6adfe-es-without-network-requests-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-rejects-empty-whit-6adfe-es-without-network-requests-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-rejects-empty-whit-6adfe-es-without-network-requests-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-rejects-empty-whit-6adfe-es-without-network-requests-mobile-retry2/error-context.md
+
+  15) [mobile] › tests/e2e/weather.spec.ts:324:1 › keeps five forecast dates and renders missing provider fields without invalid values 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-keeps-five-forecas-67074-elds-without-invalid-values-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-keeps-five-forecas-67074-elds-without-invalid-values-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-keeps-five-forecas-67074-elds-without-invalid-values-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-keeps-five-forecas-67074-elds-without-invalid-values-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-keeps-five-forecas-67074-elds-without-invalid-values-mobile-retry2/error-context.md
+
+  16) [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for http failure and allows a manual retry 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-an-explicit--b7cd7-e-and-allows-a-manual-retry-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-an-explicit--b7cd7-e-and-allows-a-manual-retry-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-shows-an-explicit--b7cd7-e-and-allows-a-manual-retry-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-shows-an-explicit--b7cd7-e-and-allows-a-manual-retry-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-an-explicit--b7cd7-e-and-allows-a-manual-retry-mobile-retry2/error-context.md
+
+  17) [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for network failure and allows a manual retry 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-an-explicit--a70dc-e-and-allows-a-manual-retry-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-an-explicit--a70dc-e-and-allows-a-manual-retry-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-shows-an-explicit--a70dc-e-and-allows-a-manual-retry-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-shows-an-explicit--a70dc-e-and-allows-a-manual-retry-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-an-explicit--a70dc-e-and-allows-a-manual-retry-mobile-retry2/error-context.md
+
+  18) [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for partial failure and allows a manual retry 
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-an-explicit--84924-e-and-allows-a-manual-retry-mobile/error-context.md
+
+    Retry #1 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-an-explicit--84924-e-and-allows-a-manual-retry-mobile-retry1/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/weather-shows-an-explicit--84924-e-and-allows-a-manual-retry-mobile-retry1/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/weather-shows-an-explicit--84924-e-and-allows-a-manual-retry-mobile-retry1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Retry #2 ───────────────────────────────────────────────────────────────────────────────────────
+
+    Error: browserType.launch: Executable doesn't exist at /home/runner/.cache/ms-playwright/webkit-2311/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/weather-shows-an-explicit--84924-e-and-allows-a-manual-retry-mobile-retry2/error-context.md
+
+  18 failed
+    [mobile] › tests/e2e/accessibility.spec.ts:74:1 › has no critical or serious accessibility violations in key states 
+    [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 320px ──────────
+    [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 768px ──────────
+    [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1280px ─────────
+    [mobile] › tests/e2e/responsive.spec.ts:57:3 › keeps the weather flow usable at 1920px ─────────
+    [mobile] › tests/e2e/weather.spec.ts:84:1 › rejects invalid input without a request and distinguishes an empty search 
+    [mobile] › tests/e2e/weather.spec.ts:106:1 › sends a normalized qualified query and waits for explicit city selection 
+    [mobile] › tests/e2e/weather.spec.ts:152:1 › requires refinement for duplicate locations and does not request a forecast 
+    [mobile] › tests/e2e/weather.spec.ts:169:1 › shows five days on mobile, changes units without requests, and preserves old data on refresh failure 
+    [mobile] › tests/e2e/weather.spec.ts:220:1 › times out without retrying and exposes stale data after a manual retry 
+    [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius on the default viewport 
+    [mobile] › tests/e2e/weather.spec.ts:254:3 › searches and converts zero Celsius at 375x812 ─────
+    [mobile] › tests/e2e/weather.spec.ts:283:1 › shows the empty state when geocoding returns no results property 
+    [mobile] › tests/e2e/weather.spec.ts:297:1 › rejects empty, whitespace-only, and special-character searches without network requests 
+    [mobile] › tests/e2e/weather.spec.ts:324:1 › keeps five forecast dates and renders missing provider fields without invalid values 
+    [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for http failure and allows a manual retry 
+    [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for network failure and allows a manual retry 
+    [mobile] › tests/e2e/weather.spec.ts:361:3 › shows an explicit weather error for partial failure and allows a manual retry 
+  18 passed (35.6s)
+[ELIFECYCLE] Command failed with exit code 1.
+Error: Process completed with exit code 1.

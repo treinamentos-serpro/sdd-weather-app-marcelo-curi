@@ -20,7 +20,7 @@
       }
     }
   },
-  "postCreateCommand": "corepack enable && pnpm install && pnpm exec playwright install --with-deps chromium",
+  "postCreateCommand": "corepack enable && pnpm install && pnpm exec playwright install --with-deps chromium webkit",
   "forwardPorts": [5173],
   "portsAttributes": {
     "5173": {
