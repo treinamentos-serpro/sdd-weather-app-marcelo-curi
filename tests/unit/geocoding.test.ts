@@ -47,4 +47,21 @@ describe('searchCities', () => {
     expect(requestedUrl.searchParams.get('language')).toBe('pt');
     expect(requestedUrl.searchParams.get('format')).toBe('json');
   });
+
+  it('sends the complete qualified query as the URL-encoded name parameter', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ results: [] }), { status: 200 }),
+    );
+    vi.stubGlobal('fetch', fetchMock);
+    const query = 'Winston-Salem, North Carolina, USA';
+
+    await expect(searchCities(query)).resolves.toEqual([]);
+
+    const [requestedUrl] = fetchMock.mock.calls[0] as [URL];
+    expect(requestedUrl.search).toContain('name=Winston-Salem%2C+North+Carolina%2C+USA');
+    expect(requestedUrl.searchParams.get('name')).toBe(query);
+    expect(requestedUrl.searchParams.get('count')).toBe('100');
+    expect(requestedUrl.searchParams.get('language')).toBe('pt');
+    expect(requestedUrl.searchParams.get('format')).toBe('json');
+  });
 });
