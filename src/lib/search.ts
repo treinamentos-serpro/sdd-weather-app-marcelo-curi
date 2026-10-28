@@ -12,7 +12,7 @@ export function normalizeAndValidateSearch(input: string): SearchValidationResul
     return { normalized, error: 'required' };
   }
 
-  if (!/^[\p{L} ]+$/u.test(normalized)) {
+  if (!/^[\p{L} ,-]+$/u.test(normalized)) {
     return { normalized, error: 'invalid' };
   }
 
